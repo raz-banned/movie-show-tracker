@@ -1,3 +1,4 @@
+import { Link } from "react-router"
 import { Button } from "./ui/button"
 import { useState } from "react"
 
@@ -13,11 +14,13 @@ export function Navbar() {
         className={`absolute top-full left-0 z-50 flex-col gap-4 rounded-sm bg-accent p-2 md:static md:flex md:flex-row md:gap-12 md:bg-transparent md:p-0 ${isMenuOpen ? "flex" : "hidden"} md:block`}
       >
         <li className="cursor-pointer transition hover:text-primary">
-          Главная
+          <Link to="/">Главная</Link>
         </li>
-        <li className="cursor-pointer transition hover:text-primary">Жанры</li>
         <li className="cursor-pointer transition hover:text-primary">
-          Сериалы
+          <Link to="/genres">Жанры</Link>
+        </li>
+        <li className="cursor-pointer transition hover:text-primary">
+          <Link to="/shows">Сериалы</Link>
         </li>
       </ul>
     </nav>
