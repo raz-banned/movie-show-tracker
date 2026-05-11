@@ -9,83 +9,24 @@ import { Button } from "./ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
 import { useState } from "react"
-import { useQuery } from "@tanstack/react-query"
-import { fetchTrendingMovies } from "@/api/fetchTrendingMovies"
-import { type TrendingMovieResponse } from "@/types/TrendingMovieResponse"
-import {
-  fetchMovieGenres,
-  type MovieGenreResponse,
-} from "@/api/fetchMovieGenres"
-import { fetchMovieVideos } from "@/api/fetchMovieVideos"
-import type { MovieVideosResponse } from "@/types/MovieVideosResponse"
+import { useMainMovie } from "@/hooks/useMainMovie"
+import { MainMovieCardSkeleton } from "./MainMovieCardSkeleton"
 
 export function MainMovieCard() {
   const [isBookmarked, setIsBookmarked] = useState(false)
-  const {
-    data: moviesData,
-    error: moviesError,
-    isPending: isMoviesPending,
-  } = useQuery<TrendingMovieResponse>({
-    queryKey: ["movies", "trending"],
-    queryFn: () => fetchTrendingMovies("week"),
-  })
-  const {
-    data: genresData,
-    error: genresError,
-    isPending: isGenresPending,
-  } = useQuery<MovieGenreResponse>({
-    queryKey: ["movies", "genres"],
-    queryFn: fetchMovieGenres,
-  })
-  const {
-    data: videosData,
-    error: videosError,
-    isPending: isVideosPending,
-  } = useQuery<MovieVideosResponse>({
-    queryKey: ["movies", "trending", "videos"],
-    queryFn: () => fetchMovieVideos(moviesData?.results[0].id ?? 0),
-  })
+  const { movie, movieGenres, movieTrailer, isPending, error, refetch } =
+    useMainMovie()
 
-  if (isMoviesPending) {
-    return <div>Loading...</div>
-  }
-  if (isGenresPending) {
-    return <div>Loading genres...</div>
-  }
-  if (isVideosPending) {
-    return <div>Loading videos...</div>
-  }
-  if (moviesError) {
+  if (isPending) return <MainMovieCardSkeleton />
+  if (error) {
     return (
-      <div>
-        Error: {moviesError.name} {moviesError.message}
+      <div className="flex flex-col items-center gap-2">
+        <p>Не удалось загрузить фильмы</p>
+        <Button onClick={() => refetch()}>Попробовать снова</Button>
       </div>
     )
   }
-  if (genresError) {
-    return (
-      <div>
-        Error: {genresError.name} {genresError.message}
-      </div>
-    )
-  }
-  if (videosError) {
-    return (
-      <div>
-        Error: {videosError.name} {videosError.message}
-      </div>
-    )
-  }
-  if (!moviesData.results.length) return <div>No results</div>
-
-  const movie = moviesData.results[0]
-  const movieGenres = genresData.genres.filter((genre) =>
-    movie.genre_ids.includes(genre.id)
-  )
-  const movieTrailer = videosData.results.find(
-    (video) =>
-      video.type === "Trailer" && video.site === "YouTube" && video.official
-  )
+  if (!movie) return <div>No results</div>
 
   return (
     <Card className="mx-auto flex max-w-7xl flex-col gap-6 rounded-2xl p-6 transition-transform hover:scale-101 md:flex-row md:items-start">
