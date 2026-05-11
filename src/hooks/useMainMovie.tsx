@@ -39,12 +39,17 @@ export function useMainMovie() {
     queryFn: () => fetchMovieVideos(moviesData?.results[0].id ?? 0),
   })
 
-  const movie = moviesData?.results[0]
-  const movieGenres =
-    genresData?.genres.filter((g) => movie?.genre_ids.includes(g.id)) ?? []
-  const movieTrailer = videosData?.results.find(
-    (v) => v.type === "Trailer" && v.site === "YouTube" && v.official
+  const movie = moviesData?.results?.[0]
+  const movieGenres = genresData?.genres.filter((g) =>
+    movie?.genre_ids.includes(g.id)
   )
+  const movieTrailer =
+    videosData?.results.find(
+      (v) => v.type === "Trailer" && v.site === "YouTube" && v.official
+    ) ||
+    videosData?.results.find(
+      (v) => v.type === "Trailer" && v.site === "YouTube"
+    )
 
   return {
     movie,

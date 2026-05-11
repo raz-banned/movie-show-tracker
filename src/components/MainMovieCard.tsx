@@ -56,7 +56,7 @@ export function MainMovieCard() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            {movieGenres.map((genre) => (
+            {movieGenres?.map((genre) => (
               <Badge
                 key={genre.id}
                 variant="secondary"
