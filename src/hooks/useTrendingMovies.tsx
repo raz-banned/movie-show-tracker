@@ -1,24 +1,24 @@
 import { fetchTrendingMovies } from "@/api/fetchTrendingMovies"
 import type { TrendingMovieResponse } from "@/types/TrendingMovieResponse"
 import { useQuery } from "@tanstack/react-query"
+import { useSearchParams } from "react-router"
 
-export function useTrendingMovies() {
-  const {
-    data: moviesData,
-    error: moviesError,
-    isPending: isMoviesPending,
-    refetch: refetchMovies,
-  } = useQuery<TrendingMovieResponse>({
-    queryKey: ["movies", "trending"],
-    queryFn: () => fetchTrendingMovies("week"),
-  })
+export const useTrendingMovies = () => {
+  const [searchParams] = useSearchParams()
 
-  const movies = moviesData?.results.slice(1, 6)
+  const { data, error, isLoading, refetch } =
+    useQuery<TrendingMovieResponse>({
+      queryKey: ["movies", "trending"],
+      queryFn: () => fetchTrendingMovies("week"),
+      enabled: searchParams.get("tab") === "movies" || !searchParams.get("tab"),
+    })
+
+  const movies = data?.results.slice(1, 6)
 
   return {
     movies,
-    isPending: isMoviesPending,
-    error: moviesError,
-    refetch: () => refetchMovies(),
+    isLoading,
+    error,
+    refetch,
   }
 }

@@ -1,12 +1,10 @@
 import { MagnifyingGlassIcon } from "@phosphor-icons/react"
 import { Input } from "./ui/input"
 import { useState, type KeyboardEvent } from "react"
-import { useDebounce } from "@/hooks/useDebounce"
 import { useNavigate } from "react-router"
 
 export function Searchbar() {
   const [searchQuery, setSearchQuery] = useState("")
-  const debouncedValue = useDebounce(searchQuery, 500)
   const navigate = useNavigate()
 
   const handleKeydown = (e: KeyboardEvent<HTMLInputElement>) => {

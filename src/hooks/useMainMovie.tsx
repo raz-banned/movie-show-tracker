@@ -8,7 +8,7 @@ import type { MovieVideosResponse } from "@/types/MovieVideosResponse"
 import type { TrendingMovieResponse } from "@/types/TrendingMovieResponse"
 import { useQuery } from "@tanstack/react-query"
 
-export function useMainMovie() {
+export const useMainMovie = () => {
   const {
     data: moviesData,
     error: moviesError,

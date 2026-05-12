@@ -21,8 +21,8 @@ export function MainMovieCard() {
   if (error) {
     return (
       <div className="flex flex-col items-center gap-2">
-        <p>Не удалось загрузить фильмы</p>
-        <Button onClick={() => refetch()}>Попробовать снова</Button>
+        <p>Couldn't load movies</p>
+        <Button onClick={() => refetch()}>Try again</Button>
       </div>
     )
   }
@@ -41,7 +41,7 @@ export function MainMovieCard() {
         <CardHeader className="p-0">
           <Badge>
             <TrendUpIcon size={32} />
-            <span className="text-xs">В тренде</span>
+            <span className="text-xs">In Trend</span>
           </Badge>
           <CardTitle className="text-xl font-semibold">{movie.title}</CardTitle>
         </CardHeader>

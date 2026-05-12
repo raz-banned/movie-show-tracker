@@ -2,19 +2,19 @@ import { BookmarkSimpleIcon, PlusIcon } from "@phosphor-icons/react"
 import { Button } from "./ui/button"
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { useState } from "react"
-interface TrendingMovieCardProps {
+interface TrendingShowCardProps {
   poster: string
-  title: string
+  name: string
   rating: number
-  releaseDate: string
+  airDate: string
 }
 
-export function TrendingMovieCard({
+export function TrendingShowCard({
   poster,
-  title,
+  name,
   rating,
-  releaseDate,
-}: TrendingMovieCardProps) {
+  airDate,
+}: TrendingShowCardProps) {
   const [isBookmarked, setIsBookmarked] = useState(false)
 
   return (
@@ -22,7 +22,7 @@ export function TrendingMovieCard({
       <div className="aspect-2/3 w-full overflow-hidden">
         <img
           src={`https://image.tmdb.org/t/p/w500${poster}`}
-          alt={title}
+          alt={name}
           className="h-full w-full object-cover"
         />
       </div>
@@ -41,9 +41,9 @@ export function TrendingMovieCard({
             <PlusIcon size={20} />
           )}
         </Button>
-        <CardTitle className="truncate text-sm">{title}</CardTitle>
+        <CardTitle className="truncate text-sm">{name}</CardTitle>
         <CardDescription className="text-xs">
-          {new Date(releaseDate).toLocaleString("en-US", {
+          {new Date(airDate).toLocaleString("en-US", {
             month: "short",
             year: "numeric",
           })}

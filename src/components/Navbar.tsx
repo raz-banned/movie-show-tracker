@@ -14,13 +14,13 @@ export function Navbar() {
         className={`absolute top-full left-0 z-50 flex-col gap-4 rounded-sm bg-accent p-2 md:static md:flex md:flex-row md:gap-12 md:bg-transparent md:p-0 ${isMenuOpen ? "flex" : "hidden"} md:block`}
       >
         <li className="cursor-pointer transition hover:text-primary">
-          <Link to="/">Главная</Link>
+          <Link to="/">Home</Link>
         </li>
         <li className="cursor-pointer transition hover:text-primary">
-          <Link to="/genres">Жанры</Link>
+          <Link to="/genres">Genres</Link>
         </li>
         <li className="cursor-pointer transition hover:text-primary">
-          <Link to="/shows">Сериалы</Link>
+          <Link to="/shows">Shows</Link>
         </li>
       </ul>
     </nav>
