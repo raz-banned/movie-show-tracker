@@ -5,6 +5,7 @@ import { useTrendingMovies } from "@/hooks/useTrendingMovies"
 import { TrendingMovieCard } from "./TrendingMovieCard"
 import { useTrendingShows } from "@/hooks/useTrendingShows"
 import { TrendingShowCard } from "./TrendingShowcard"
+import { TrendingCardsSkeleton } from "./TrendingCardsSkeleton"
 
 export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams({ tab: "movies" })
@@ -21,7 +22,7 @@ export function TrendingCards() {
     refetch: refetchShows,
   } = useTrendingShows()
 
-  if (isMoviesLoading || isShowsLoading) return <div>Loading...</div>
+  if (isMoviesLoading || isShowsLoading) return <TrendingCardsSkeleton />
   if (moviesError || showsError) {
     return (
       <div className="flex flex-col items-center gap-2">
@@ -49,7 +50,9 @@ export function TrendingCards() {
         <div className="flex gap-2">
           <Button
             variant={
-              searchParams.get("tab") === "movies" ? "default" : "outline"
+              searchParams.get("tab") === "movies" || !searchParams.get("tab")
+                ? "default"
+                : "outline"
             }
             size="sm"
             onClick={() => setSearchParams({ tab: "movies" })}
