@@ -19,9 +19,6 @@ export function Navbar() {
         <li className="cursor-pointer transition hover:text-primary">
           <Link to="/genres">Genres</Link>
         </li>
-        <li className="cursor-pointer transition hover:text-primary">
-          <Link to="/shows">Shows</Link>
-        </li>
       </ul>
     </nav>
   )

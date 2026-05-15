@@ -1,23 +1,17 @@
-import {
-  BookmarkSimpleIcon,
-  DotIcon,
-  PlayIcon,
-  TrendUpIcon,
-} from "@phosphor-icons/react"
+import { DotIcon, PlayIcon, TrendUpIcon } from "@phosphor-icons/react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
-import { useState } from "react"
 import { useMainMovie } from "@/hooks/useMainMovie"
-import { MainMovieCardSkeleton } from "./MainMovieCardSkeleton"
+import { MainCardSkeleton } from "./MainCardSkeleton"
+import { MainCardBookmark } from "./MainCardBookmark"
 
 export function MainMovieCard() {
-  const [isBookmarked, setIsBookmarked] = useState(false)
   const { movie, movieGenres, movieTrailer, isPending, error, refetch } =
     useMainMovie()
 
-  if (isPending) return <MainMovieCardSkeleton />
+  if (isPending) return <MainCardSkeleton />
   if (error) {
     return (
       <div className="flex flex-col items-center gap-2">
@@ -29,7 +23,7 @@ export function MainMovieCard() {
   if (!movie) return <div>No results</div>
 
   return (
-    <Card className="mx-auto flex max-w-7xl flex-col gap-6 rounded-2xl p-6 transition-transform hover:scale-101 md:flex-row md:items-start">
+    <Card className="mx-auto flex max-w-7xl flex-col gap-6 rounded-2xl p-6 transition-transform hover:scale-101 md:flex-row md:items-center">
       <div className="w-full md:w-2/5">
         <img
           src={`https://image.tmdb.org/t/p/w780${movie.backdrop_path}`}
@@ -90,17 +84,7 @@ export function MainMovieCard() {
               </div>
             </DialogContent>
           </Dialog>
-          <Button
-            variant={"secondary"}
-            onClick={() => setIsBookmarked((prev) => !prev)}
-          >
-            {isBookmarked ? (
-              <BookmarkSimpleIcon size={24} weight="fill" />
-            ) : (
-              <BookmarkSimpleIcon size={24} />
-            )}
-            <span className="text-sm font-medium">Watchlist</span>
-          </Button>
+          <MainCardBookmark />
         </CardFooter>
       </div>
     </Card>

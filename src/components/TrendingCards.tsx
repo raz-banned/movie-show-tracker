@@ -4,11 +4,13 @@ import { Link, useSearchParams } from "react-router"
 import { useTrendingMovies } from "@/hooks/useTrendingMovies"
 import { TrendingMovieCard } from "./TrendingMovieCard"
 import { useTrendingShows } from "@/hooks/useTrendingShows"
-import { TrendingShowCard } from "./TrendingShowcard"
+import { TrendingShowCard } from "./TrendingShowCard"
 import { TrendingCardsSkeleton } from "./TrendingCardsSkeleton"
 
 export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams({ tab: "movies" })
+  const activeTab = searchParams.get("tab") ?? "movies"
+
   const {
     movies,
     isLoading: isMoviesLoading,
@@ -22,18 +24,51 @@ export function TrendingCards() {
     refetch: refetchShows,
   } = useTrendingShows()
 
-  if (isMoviesLoading || isShowsLoading) return <TrendingCardsSkeleton />
-  if (moviesError || showsError) {
-    return (
-      <div className="flex flex-col items-center gap-2">
-        <p>Не удалось загрузить фильмы</p>
-        <Button onClick={() => refetchMovies() || refetchShows()}>
-          Попробовать снова
-        </Button>
-      </div>
-    )
+  const isLoading = isMoviesLoading || isShowsLoading
+  const error = moviesError || showsError
+
+  const content = () => {
+    if (isLoading) return <TrendingCardsSkeleton />
+    if (error)
+      return (
+        <div className="flex flex-col items-center gap-2">
+          <p>Не удалось загрузить фильмы</p>
+          <Button
+            onClick={() => {
+              refetchMovies()
+              refetchShows()
+            }}
+          >
+            Попробовать снова
+          </Button>
+        </div>
+      )
+    if (!movies?.length)
+      return (
+        <div className="flex flex-col items-center gap-2">
+          <p>Нет результатов</p>
+        </div>
+      )
+    return activeTab === "shows"
+      ? shows?.map((show) => (
+          <TrendingShowCard
+            key={show.id}
+            poster={show.poster_path}
+            name={show.name}
+            rating={show.vote_average}
+            airDate={show.first_air_date}
+          />
+        ))
+      : movies?.map((movie) => (
+          <TrendingMovieCard
+            key={movie.id}
+            poster={movie.poster_path}
+            title={movie.title}
+            rating={movie.vote_average}
+            releaseDate={movie.release_date}
+          />
+        ))
   }
-  if (!movies?.length) return <div>No results</div>
 
   return (
     <section className="mx-auto flex max-w-7xl flex-col gap-4 py-6">
@@ -49,20 +84,14 @@ export function TrendingCards() {
         </div>
         <div className="flex gap-2">
           <Button
-            variant={
-              searchParams.get("tab") === "movies" || !searchParams.get("tab")
-                ? "default"
-                : "outline"
-            }
+            variant={activeTab === "movies" ? "default" : "outline"}
             size="sm"
             onClick={() => setSearchParams({ tab: "movies" })}
           >
             Movies
           </Button>
           <Button
-            variant={
-              searchParams.get("tab") === "shows" ? "default" : "outline"
-            }
+            variant={activeTab === "shows" ? "default" : "outline"}
             size="sm"
             onClick={() => setSearchParams({ tab: "shows" })}
           >
@@ -70,26 +99,9 @@ export function TrendingCards() {
           </Button>
         </div>
       </div>
+
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {searchParams.get("tab") === "movies" || !searchParams.get("tab")
-          ? movies.map((movie) => (
-              <TrendingMovieCard
-                key={movie.id}
-                poster={movie.poster_path}
-                title={movie.title}
-                rating={movie.vote_average}
-                releaseDate={movie.release_date}
-              />
-            ))
-          : shows?.map((show) => (
-              <TrendingShowCard
-                key={show.id}
-                poster={show.poster_path}
-                name={show.name}
-                rating={show.vote_average}
-                airDate={show.first_air_date}
-              />
-            ))}
+        {content()}
       </div>
     </section>
   )

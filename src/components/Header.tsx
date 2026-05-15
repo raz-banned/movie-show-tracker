@@ -3,9 +3,11 @@ import { Navbar } from "./Navbar"
 import { Searchbar } from "./Searchbar"
 import { Button } from "./ui/button"
 import { Separator } from "./ui/separator"
-import { Link } from "react-router"
+import { Link, useLocation } from "react-router"
 
 export function Header() {
+  const location = useLocation()
+
   return (
     <>
       <header className="p-4">
@@ -17,7 +19,12 @@ export function Header() {
             </h1>
             <Button asChild size="icon" variant="ghost">
               <Link to="/watchlist" className="md:order-last">
-                <BookmarkSimpleIcon size={24} />
+                <BookmarkSimpleIcon
+                  size={24}
+                  weight={
+                    location.pathname === "/watchlist" ? "fill" : "regular"
+                  }
+                />
               </Link>
             </Button>
           </div>
