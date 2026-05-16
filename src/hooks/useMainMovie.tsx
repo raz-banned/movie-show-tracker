@@ -5,7 +5,7 @@ import {
 import { fetchMovieVideos } from "@/api/fetchMovieVideos"
 import { fetchTrendingMovies } from "@/api/fetchTrendingMovies"
 import type { MovieVideosResponse } from "@/types/MovieVideosResponse"
-import type { TrendingMovieResponse } from "@/types/TrendingMovieResponse"
+import type { TrendingMoviesResponse } from "@/types/TrendingMoviesResponse"
 import { useQuery } from "@tanstack/react-query"
 
 export const useMainMovie = () => {
@@ -14,7 +14,7 @@ export const useMainMovie = () => {
     error: moviesError,
     isPending: isMoviesPending,
     refetch: refetchMovies,
-  } = useQuery<TrendingMovieResponse>({
+  } = useQuery<TrendingMoviesResponse>({
     queryKey: ["movies", "trending"],
     queryFn: () => fetchTrendingMovies("week"),
   })

@@ -6,12 +6,25 @@ import {
 } from "@/components/ui/popover"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
+import type { TrendingCardProps } from "./TrendingCard"
+import { useStorageContext } from "@/hooks/useStorageContext"
 
-export function TrendingCardBookmark() {
+export function TrendingCardBookmark({
+  id,
+  mediaType,
+  poster,
+  title,
+  rating,
+  releaseDate,
+}: TrendingCardProps) {
+  const {storage, setStorage} = useStorageContext()
+
   const [bookmarkType, setBookmarkType] = useState<
     "Watching" | "Completed" | "Planning" | ""
-  >("")
+  >(storage.find((item) => item.id === id)?.status || "")
   const [isOpen, setIsOpen] = useState(false)
+
+
 
   const colorClass = {
     Watching: "text-green-500",
@@ -23,6 +36,7 @@ export function TrendingCardBookmark() {
   const handleTriggerClick = () => {
     if (bookmarkType) {
       setBookmarkType("")
+      setStorage((prev) => prev.filter((bookmark) => bookmark.id !== id))
     } else {
       setIsOpen(true)
     }
@@ -31,6 +45,19 @@ export function TrendingCardBookmark() {
   const handleOptionClick = (type: "Watching" | "Completed" | "Planning") => {
     setBookmarkType(type)
     setIsOpen(false)
+    setStorage((prev) => [
+      ...prev,
+      {
+        id: id,
+        status: type,
+        added_at: new Date(),
+        media_type: mediaType === "tv" ? "tv" : "movie",
+        title: title,
+        release_date: releaseDate,
+        poster: poster,
+        rating: rating,
+      },
+    ])
   }
 
   return (

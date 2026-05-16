@@ -7,7 +7,7 @@ export interface Movie extends Trending {
   video: boolean
 }
 
-export interface TrendingMovieResponse {
+export interface TrendingMoviesResponse {
   page: number
   results: Movie[]
   total_pages: number

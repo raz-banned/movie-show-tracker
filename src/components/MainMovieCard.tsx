@@ -84,7 +84,7 @@ export function MainMovieCard() {
               </div>
             </DialogContent>
           </Dialog>
-          <MainCardBookmark />
+          <MainCardBookmark movie={movie} />
         </CardFooter>
       </div>
     </Card>

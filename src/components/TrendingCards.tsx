@@ -2,9 +2,8 @@ import { ArrowRightIcon } from "@phosphor-icons/react"
 import { Button } from "./ui/button"
 import { Link, useSearchParams } from "react-router"
 import { useTrendingMovies } from "@/hooks/useTrendingMovies"
-import { TrendingMovieCard } from "./TrendingMovieCard"
+import { TrendingCard } from "./TrendingCard"
 import { useTrendingShows } from "@/hooks/useTrendingShows"
-import { TrendingShowCard } from "./TrendingShowCard"
 import { TrendingCardsSkeleton } from "./TrendingCardsSkeleton"
 
 export function TrendingCards() {
@@ -51,17 +50,21 @@ export function TrendingCards() {
       )
     return activeTab === "shows"
       ? shows?.map((show) => (
-          <TrendingShowCard
+          <TrendingCard
             key={show.id}
+            id={show.id}
+            mediaType={show.media_type === "tv" ? "tv" : "movie"}
             poster={show.poster_path}
-            name={show.name}
+            title={show.name}
             rating={show.vote_average}
-            airDate={show.first_air_date}
+            releaseDate={show.first_air_date}
           />
         ))
       : movies?.map((movie) => (
-          <TrendingMovieCard
+          <TrendingCard
             key={movie.id}
+            id={movie.id}
+            mediaType={movie.media_type === "tv" ? "tv" : "movie"}
             poster={movie.poster_path}
             title={movie.title}
             rating={movie.vote_average}

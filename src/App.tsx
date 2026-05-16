@@ -5,6 +5,7 @@ import { Layout } from "./components/Layout"
 import Homepage from "./pages/homepage"
 import WatchlistPage from "./pages/watchlistPage"
 import { Toaster } from "sonner"
+import { StorageProvider } from "./context/StorageProvider"
 
 const queryClient = new QueryClient()
 
@@ -20,12 +21,14 @@ window.__TANSTACK_QUERY_CLIENT__ = queryClient
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Homepage />} />
-          <Route path="watchlist" element={<WatchlistPage />} />
-        </Route>
-      </Routes>
+      <StorageProvider>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Homepage />} />
+            <Route path="watchlist" element={<WatchlistPage />} />
+          </Route>
+        </Routes>
+      </StorageProvider>
       <Toaster />
     </QueryClientProvider>
   )

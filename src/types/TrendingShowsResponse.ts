@@ -1,6 +1,6 @@
 import type { Trending } from "./TrendingResponse"
 
-export interface Shows extends Trending {
+export interface Show extends Trending {
   name: string
   original_name: string
   first_air_date: string
@@ -9,7 +9,7 @@ export interface Shows extends Trending {
 
 export interface TrendingShowsResponse {
   page: number
-  results: Shows[]
+  results: Show[]
   total_pages: number
   total_results: number
 }
