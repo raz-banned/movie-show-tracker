@@ -8,6 +8,7 @@ import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
 import type { TrendingCardProps } from "./TrendingCard"
 import { useStorageContext } from "@/hooks/useStorageContext"
+import { statusColors } from "@/utils/watchlistStatusColors"
 
 export function TrendingCardBookmark({
   id,
@@ -17,21 +18,12 @@ export function TrendingCardBookmark({
   rating,
   releaseDate,
 }: TrendingCardProps) {
-  const {storage, setStorage} = useStorageContext()
+  const { storage, setStorage } = useStorageContext()
 
   const [bookmarkType, setBookmarkType] = useState<
     "Watching" | "Completed" | "Planning" | ""
   >(storage.find((item) => item.id === id)?.status || "")
   const [isOpen, setIsOpen] = useState(false)
-
-
-
-  const colorClass = {
-    Watching: "text-green-500",
-    Completed: "text-blue-500",
-    Planning: "text-yellow-500",
-    "": "",
-  }
 
   const handleTriggerClick = () => {
     if (bookmarkType) {
@@ -67,7 +59,7 @@ export function TrendingCardBookmark({
           size="icon-sm"
           variant="outline"
           className={
-            colorClass[bookmarkType] +
+            statusColors[bookmarkType] +
             " absolute top-2 left-2 rounded-sm bg-accent p-1"
           }
           onClick={handleTriggerClick}

@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Select,
@@ -32,18 +33,18 @@ function WatchlistPage() {
   }
 
   return (
-    <div className="mx-auto flex max-w-7xl flex-col">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col">
-          <h2 className="text-xl font-semibold">Watchlist</h2>
-          <div className="flex items-center">
-            <span className="text-sm text-muted-foreground">6 movies</span>
-            <DotIcon size={24} />
-            <span className="text-sm text-muted-foreground">2 shows</span>
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
+      <div className="flex flex-col gap-6 md:flex-row md:justify-evenly">
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex gap-6">
+            <h2 className="text-xl font-semibold">Watchlist</h2>
+            <div className="flex items-center">
+              <span className="text-sm text-muted-foreground">6 movies</span>
+              <DotIcon size={24} />
+              <span className="text-sm text-muted-foreground">2 shows</span>
+            </div>
           </div>
-        </div>
 
-        <div className="flex flex-1 items-center justify-end gap-12">
           <div className="flex items-center gap-2">
             <Button
               variant={tab === "all" ? "default" : "outline"}
@@ -64,7 +65,9 @@ function WatchlistPage() {
               Shows
             </Button>
           </div>
+        </div>
 
+        <div className="flex items-center justify-evenly gap-2 md:flex-row">
           <Select>
             <SelectTrigger>
               <SelectValue
@@ -95,7 +98,7 @@ function WatchlistPage() {
             </SelectContent>
           </Select>
 
-          <div className="flex items-center gap-2">
+          <div role="group" className="flex items-center gap-1">
             <Button
               variant={layout === "list" ? "default" : "outline"}
               onClick={() => handleParamChange("layout", "list")}
@@ -111,6 +114,45 @@ function WatchlistPage() {
           </div>
         </div>
       </div>
+
+      <ul className="mx-auto w-full max-w-xl flex-1">
+        <li className="flex justify-between gap-4 rounded-sm border border-border bg-accent p-4">
+          <div className="flex items-center gap-6">
+            <div className="h-18 w-12">
+              <img
+                src="https://picsum.photos/200/300"
+                alt="Empty"
+                className="h-full w-full rounded-sm bg-gray-400"
+              />
+            </div>
+
+            <div className="flex flex-col gap-1">
+              <h2 className="text-lg font-semibold">Dune: Part Two</h2>
+              <div className="flex">
+                <span className="text-sm text-muted-foreground">2024</span>
+                <DotIcon size={20} />
+                <span className="text-sm text-primary">8.7</span>
+              </div>
+              <ul className="flex gap-1">
+                <li>
+                  <Badge variant="outline">sci-fi</Badge>
+                </li>
+                <li>
+                  <Badge variant="outline">Adventure</Badge>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-center gap-2 md:flex-row md:gap-6">
+            <div className="flex flex-col gap-2">
+              <Badge className="">Watching</Badge>
+              <span className="text-sm text-muted-foreground">2 days ago</span>
+            </div>
+            <Button variant="destructive">Remove</Button>
+          </div>
+        </li>
+      </ul>
     </div>
   )
 }

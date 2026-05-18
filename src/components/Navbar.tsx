@@ -1,18 +1,29 @@
 import { Link } from "react-router"
 import { Button } from "./ui/button"
-import { useState } from "react"
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover"
 
 export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-
   return (
-    <nav className="relative md:order-2">
-      <Button className="md:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-        ☰
-      </Button>
-      <ul
-        className={`absolute top-full left-0 z-50 flex-col gap-4 rounded-sm bg-accent p-2 md:static md:flex md:flex-row md:gap-12 md:bg-transparent md:p-0 ${isMenuOpen ? "flex" : "hidden"} md:block`}
-      >
+    <nav className="md:order-2">
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button size="icon" className="md:hidden">
+            ☰
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align="start" className="max-w-24">
+          <ul className={`flex flex-col gap-4`}>
+            <li className="cursor-pointer transition hover:text-primary">
+              <Link to="/">Home</Link>
+            </li>
+            <li className="cursor-pointer transition hover:text-primary">
+              <Link to="/genres">Genres</Link>
+            </li>
+          </ul>
+        </PopoverContent>
+      </Popover>
+
+      <ul className="hidden md:flex md:flex-row md:gap-12">
         <li className="cursor-pointer transition hover:text-primary">
           <Link to="/">Home</Link>
         </li>

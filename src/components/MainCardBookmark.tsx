@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/popover"
 import { useStorageContext } from "@/hooks/useStorageContext"
 import type { Movie } from "@/types/TrendingMoviesResponse"
+import { statusBgColors, statusColors } from "@/utils/watchlistStatusColors"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
 
@@ -16,13 +17,6 @@ export function MainCardBookmark({ movie }: { movie: Movie }) {
     "Watching" | "Completed" | "Planning" | ""
   >(storage.find((item) => item.id === movie.id)?.status || "")
   const [isOpen, setIsOpen] = useState(false)
-
-  const colorClass = {
-    Watching: "text-green-500",
-    Completed: "text-blue-500",
-    Planning: "text-yellow-500",
-    "": "",
-  }
 
   const handleTriggerClick = () => {
     if (bookmarkType) {
@@ -56,7 +50,7 @@ export function MainCardBookmark({ movie }: { movie: Movie }) {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={colorClass[bookmarkType]}
+          className={`${statusColors[bookmarkType]} ${statusBgColors[bookmarkType]}`}
           onClick={handleTriggerClick}
         >
           <BookmarkSimpleIcon
