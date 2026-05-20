@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { Route, Routes } from "react-router"
 import { Layout } from "./components/Layout"
 import Homepage from "./pages/homepage"
-import WatchlistPage from "./pages/watchlistPage"
+import WatchlistPage from "./pages/watchListPage"
 import { Toaster } from "sonner"
 import { StorageProvider } from "./context/StorageProvider"
 
