@@ -1,5 +1,6 @@
 import { fetchTrendingMovies } from "@/api/fetchTrendingMovies"
 import type { TrendingMoviesResponse } from "@/types/TrendingMoviesResponse"
+import { normalizeMedia } from "@/utils/normalizeMedia"
 import { useQuery } from "@tanstack/react-query"
 import { useSearchParams } from "react-router"
 
@@ -12,7 +13,7 @@ export const useTrendingMovies = () => {
     enabled: searchParams.get("tab") === "movies" || !searchParams.get("tab"),
   })
 
-  const movies = data?.results.slice(1, 6)
+  const movies = data && data.results.slice(1, 6).map(normalizeMedia)
 
   return {
     movies,

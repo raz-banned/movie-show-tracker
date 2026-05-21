@@ -26,6 +26,8 @@ export function TrendingCards() {
   const isLoading = isMoviesLoading || isShowsLoading
   const error = moviesError || showsError
 
+  const items = activeTab === "shows" ? shows : movies
+
   const content = () => {
     if (isLoading) return <TrendingCardsSkeleton />
     if (error)
@@ -48,29 +50,17 @@ export function TrendingCards() {
           <p>Нет результатов</p>
         </div>
       )
-    return activeTab === "shows"
-      ? shows?.map((show) => (
-          <TrendingCard
-            key={show.id}
-            id={show.id}
-            mediaType={show.media_type === "tv" ? "tv" : "movie"}
-            poster={show.poster_path}
-            title={show.name}
-            rating={show.vote_average}
-            releaseDate={show.first_air_date}
-          />
-        ))
-      : movies?.map((movie) => (
-          <TrendingCard
-            key={movie.id}
-            id={movie.id}
-            mediaType={movie.media_type === "tv" ? "tv" : "movie"}
-            poster={movie.poster_path}
-            title={movie.title}
-            rating={movie.vote_average}
-            releaseDate={movie.release_date}
-          />
-        ))
+    return items?.map((item) => (
+      <TrendingCard
+        key={item.id}
+        id={item.id}
+        mediaType={item.mediaType}
+        posterPath={item.posterPath}
+        title={item.title}
+        voteAverage={item.voteAverage}
+        releaseDate={item.releaseDate}
+      />
+    ))
   }
 
   return (

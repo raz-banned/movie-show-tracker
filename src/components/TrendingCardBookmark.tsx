@@ -8,14 +8,14 @@ import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
 import type { TrendingCardProps } from "./TrendingCard"
 import { useStorageContext } from "@/hooks/useStorageContext"
-import { statusColors } from "@/utils/watchlistStatusColors"
+import { statusColors } from "@/utils/watchListStatusColors"
 
 export function TrendingCardBookmark({
   id,
   mediaType,
-  poster,
+  posterPath,
   title,
-  rating,
+  voteAverage,
   releaseDate,
 }: TrendingCardProps) {
   const { storage, setStorage } = useStorageContext()
@@ -40,14 +40,14 @@ export function TrendingCardBookmark({
     setStorage((prev) => [
       ...prev,
       {
-        id: id,
+        id,
+        mediaType,
+        posterPath,
+        title,
+        voteAverage,
+        releaseDate,
         status: type,
-        added_at: new Date(),
-        media_type: mediaType === "tv" ? "tv" : "movie",
-        title: title,
-        release_date: releaseDate,
-        poster: poster,
-        rating: rating,
+        addedAt: new Date(),
       },
     ])
   }

@@ -5,12 +5,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { useStorageContext } from "@/hooks/useStorageContext"
-import type { Movie } from "@/types/TrendingMoviesResponse"
-import { statusBgColors, statusColors } from "@/utils/watchlistStatusColors"
+import type { NormalizedMedia } from "@/types/NormalizedMedia"
+import { statusBgColors, statusColors } from "@/utils/watchListStatusColors"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
 
-export function MainCardBookmark({ movie }: { movie: Movie }) {
+export function MainCardBookmark({ movie }: { movie: NormalizedMedia }) {
   const { storage, setStorage } = useStorageContext()
 
   const [bookmarkType, setBookmarkType] = useState<
@@ -32,16 +32,7 @@ export function MainCardBookmark({ movie }: { movie: Movie }) {
     setIsOpen(false)
     setStorage((prev) => [
       ...prev,
-      {
-        id: movie.id,
-        status: type,
-        added_at: new Date(),
-        media_type: movie.media_type === "tv" ? "tv" : "movie",
-        title: movie.title,
-        release_date: movie.release_date,
-        poster: movie.poster_path,
-        rating: movie.vote_average,
-      },
+      { ...movie, status: type, addedAt: new Date() },
     ])
   }
 

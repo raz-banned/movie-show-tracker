@@ -1,50 +1,76 @@
-import { DotIcon } from "@phosphor-icons/react"
+import { DotIcon, TrashIcon } from "@phosphor-icons/react"
 import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
+import type { WatchListStorageItem } from "@/types/WatchListStorageItem"
+import { timeAgo } from "@/utils/timeAgo"
+import type { Dispatch, SetStateAction } from "react"
+import { statusBgColors, statusColors } from "@/utils/watchListStatusColors"
 
-export function WatchListItem() {
+export function WatchListItem({
+  item,
+  onStorageChange,
+}: {
+  item: WatchListStorageItem
+  onStorageChange: Dispatch<SetStateAction<WatchListStorageItem[]>>
+}) {
+  const timePassed = timeAgo(new Date(item.addedAt))
+
+  const handleDeleteClick = () => {
+    onStorageChange((prev) => prev.filter((i) => i.id !== item.id))
+  }
+
   return (
-    <ul className="mx-auto w-full max-w-2xl flex-1">
-      <li className="flex h-28 justify-between gap-4 rounded-sm border border-border bg-accent p-4 transition-transform hover:-translate-y-1">
-        <div className="flex items-center gap-6">
-          <div className="h-18 w-12 shrink-0">
-            <img
-              src="https://picsum.photos/200/300"
-              alt="Empty"
-              className="h-full w-full rounded-sm bg-gray-400"
-            />
-          </div>
-
-          <div className="flex min-w-0 flex-col justify-between self-stretch py-1">
-            <h2 className="line-clamp-2 text-lg font-semibold">
-              Dune: Part two111
-            </h2>
-            <div className="flex">
-              <span className="text-sm text-muted-foreground">2024</span>
-              <DotIcon size={20} />
-              <span className="text-sm text-primary">8.7</span>
-            </div>
-            <ul className="flex gap-1">
-              <li>
-                <Badge variant="outline">sci-fi</Badge>
-              </li>
-              <li>
-                <Badge variant="outline">Adventure</Badge>
-              </li>
-            </ul>
-          </div>
+    <li
+      key={item.id}
+      className="flex flex-col gap-3 rounded-sm border border-border bg-accent p-3 md:h-28 md:flex-row md:items-center md:gap-4 md:p-2"
+    >
+      <div className="flex min-w-0 flex-1 items-center gap-4">
+        <div className="aspect-2/3 w-18 shrink-0 md:w-16">
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
+            alt={item.title}
+            className="h-full w-full rounded-sm bg-gray-400"
+          />
         </div>
 
-        <div className="flex w-full flex-col items-end justify-end gap-4 md:flex-row md:items-center md:gap-6">
-          <div className="flex flex-col gap-2">
-            <Badge className="">Watching</Badge>
-            <span className="text-sm text-muted-foreground">2 days ago</span>
+        <div className="flex min-w-0 flex-1 flex-col justify-between self-stretch py-1">
+          <h2 className="line-clamp-1 text-lg font-semibold">{item.title}</h2>
+          <div className="flex">
+            <span className="text-sm text-muted-foreground">
+              {item.releaseDate.split("-")[0]}
+            </span>
+            <DotIcon size={20} />
+            <span className="text-sm text-primary">
+              {item.voteAverage.toFixed(1)}
+            </span>
           </div>
-          <Button variant="destructive" className="w-full md:w-auto">
-            Remove
-          </Button>
+          <ul className="flex gap-1">
+            <li>
+              <Badge variant="outline">sci-fi</Badge>
+            </li>
+            <li>
+              <Badge variant="outline">Adventure</Badge>
+            </li>
+          </ul>
         </div>
-      </li>
-    </ul>
+      </div>
+
+      <div className="hidden flex-col items-end gap-1 md:flex">
+        <Badge
+          className={`${statusColors[item.status]} ${statusBgColors[item.status]} `}
+        >
+          {item.status}
+        </Badge>
+        <span className="text-sm text-muted-foreground">{timePassed}</span>
+      </div>
+      <Button
+        variant="destructive"
+        size="icon"
+        className="w-full md:w-18"
+        onClick={handleDeleteClick}
+      >
+        <TrashIcon size={16} />
+      </Button>
+    </li>
   )
 }

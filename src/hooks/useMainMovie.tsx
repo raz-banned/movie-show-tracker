@@ -6,6 +6,7 @@ import { fetchMovieVideos } from "@/api/fetchMovieVideos"
 import { fetchTrendingMovies } from "@/api/fetchTrendingMovies"
 import type { MovieVideosResponse } from "@/types/MovieVideosResponse"
 import type { TrendingMoviesResponse } from "@/types/TrendingMoviesResponse"
+import { normalizeMedia } from "@/utils/normalizeMedia"
 import { useQuery } from "@tanstack/react-query"
 
 export const useMainMovie = () => {
@@ -35,21 +36,23 @@ export const useMainMovie = () => {
     isPending: isVideosPending,
     refetch: refetchVideos,
   } = useQuery<MovieVideosResponse>({
-    queryKey: ["movies", "trending", "videos"],
-    queryFn: () => fetchMovieVideos(moviesData?.results[0].id ?? 0),
+    queryKey: ["movies", "videos", moviesData?.results[0].id],
+    queryFn: () => fetchMovieVideos(moviesData!.results[0].id),
+    enabled: !!moviesData?.results[0].id,
   })
 
-  const movie = moviesData?.results?.[0]
-  const movieGenres = genresData?.genres.filter((g) =>
-    movie?.genre_ids.includes(g.id)
-  )
+  const movie = moviesData && normalizeMedia(moviesData.results[0])
+  const movieGenres =
+    genresData &&
+    genresData.genres.filter((g) => movie?.genreIds.includes(g.id))
   const movieTrailer =
-    videosData?.results.find(
+    videosData &&
+    (videosData.results.find(
       (v) => v.type === "Trailer" && v.site === "YouTube" && v.official
     ) ||
-    videosData?.results.find(
-      (v) => v.type === "Trailer" && v.site === "YouTube"
-    )
+      videosData.results.find(
+        (v) => v.type === "Trailer" && v.site === "YouTube"
+      ))
 
   return {
     movie,
@@ -57,10 +60,7 @@ export const useMainMovie = () => {
     movieTrailer,
     isPending: isMoviesPending || isGenresPending || isVideosPending,
     error: moviesError ?? genresError ?? videosError,
-    refetch: () => {
-      refetchMovies()
-      refetchGenres()
-      refetchVideos()
-    },
+    refetch: () =>
+      Promise.all([refetchMovies(), refetchGenres(), refetchVideos()]),
   }
 }
