@@ -6,7 +6,7 @@ import { useMemo } from "react"
 
 function WatchListPage() {
   const { storage, setStorage } = useStorageContext()
-  const { tab, layout, handleParamChange } = useWatchListParams()
+  const { tab, layout, sort, handleParamChange } = useWatchListParams()
 
   const filteredStorage = useMemo(
     () =>
@@ -19,6 +19,13 @@ function WatchListPage() {
           ),
     [storage, tab]
   )
+  const sortedStorage = {
+    recentlyAdded: [...filteredStorage].sort((a, b) => {
+      const dateA = new Date(a.addedAt).getTime()
+      const dateB = new Date(b.addedAt).getTime()
+      return dateB - dateA
+    }),
+  }
 
   const movieCount = storage.filter((item) => item.mediaType === "movie").length
   const showCount = storage.filter((item) => item.mediaType === "tv").length
@@ -33,10 +40,17 @@ function WatchListPage() {
         onParamChange={handleParamChange}
       />
 
-      <ul className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6">
-        {filteredStorage.map((item) => (
+      <ul
+        className={
+          layout === "list"
+            ? "mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6"
+            : "grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5"
+        }
+      >
+        {sortedStorage[sort as keyof typeof sortedStorage]?.map((item) => (
           <WatchListItem
             key={item.id}
+            layout={layout}
             item={item}
             onStorageChange={setStorage}
           />
