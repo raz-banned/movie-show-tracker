@@ -7,4 +7,5 @@ export interface WatchListStorageItem {
   releaseDate: string
   posterPath: string
   voteAverage: number
+  genres: { id: number; name: string }[]
 }

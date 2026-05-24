@@ -8,14 +8,21 @@ import { MainCardSkeleton } from "./MainCardSkeleton"
 import { MainCardBookmark } from "./MainCardBookmark"
 
 export function MainMovieCard() {
-  const { movie, movieGenres, movieTrailer, isPending, error, refetch } =
-    useMainMovie()
+  const {
+    movie,
+    movieGenres,
+    movieTrailer,
+    isPending,
+    isError,
+    error,
+    refetch,
+  } = useMainMovie()
 
   if (isPending) return <MainCardSkeleton />
-  if (error) {
+  if (isError) {
     return (
       <div className="flex flex-col items-center gap-2">
-        <p>Couldn't load movies</p>
+        <p>Couldn't load movies {error?.message}</p>
         <Button onClick={() => refetch()}>Try again</Button>
       </div>
     )
@@ -72,19 +79,25 @@ export function MainMovieCard() {
             </Button>
             <DialogContent>
               <DialogTitle>
-                {movie.title} - {movieTrailer?.name}
+                {movie.title} - {movieTrailer?.name ?? "Trailer"}
               </DialogTitle>
               <div className="aspect-video w-full rounded-lg bg-black">
-                <iframe
-                  src={`https://www.youtube.com/embed/${movieTrailer?.key}`}
-                  title={`${movie.title} - ${movieTrailer?.name}`}
-                  allowFullScreen
-                  className="h-full w-full rounded-lg object-cover"
-                />
+                {movieTrailer ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${movieTrailer?.key}`}
+                    title={`${movie.title} - ${movieTrailer?.name ?? "Trailer"}`}
+                    allowFullScreen
+                    className="h-full w-full rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="h-full w-full rounded-lg object-cover">
+                    No trailer available
+                  </div>
+                )}
               </div>
             </DialogContent>
           </Dialog>
-          <MainCardBookmark movie={movie} />
+          <MainCardBookmark movie={movie} genres={movieGenres ?? []} />
         </CardFooter>
       </div>
     </Card>

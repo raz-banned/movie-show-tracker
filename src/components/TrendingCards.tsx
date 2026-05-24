@@ -1,39 +1,33 @@
 import { ArrowRightIcon } from "@phosphor-icons/react"
 import { Button } from "./ui/button"
 import { Link, useSearchParams } from "react-router"
-import { useTrendingMovies } from "@/hooks/useTrendingMovies"
+import { useMovies } from "@/hooks/useMovies"
 import { TrendingCard } from "./TrendingCard"
-import { useTrendingShows } from "@/hooks/useTrendingShows"
 import { TrendingCardsSkeleton } from "./TrendingCardsSkeleton"
+import { useShows } from "@/hooks/useShows"
 
 export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams({ tab: "movies" })
-  const activeTab = searchParams.get("tab") ?? "movies"
+  const activeTab = searchParams.get("tab")
 
-  const {
-    movies,
-    isLoading: isMoviesLoading,
-    error: moviesError,
-    refetch: refetchMovies,
-  } = useTrendingMovies()
-  const {
-    shows,
-    isLoading: isShowsLoading,
-    error: showsError,
-    refetch: refetchShows,
-  } = useTrendingShows()
+  const { movies, isMoviesPending, isMoviesError, moviesError, refetchMovies } =
+    useMovies()
+  const { shows, isShowsPending, isShowsError, showsError, refetchShows } =
+    useShows()
 
-  const isLoading = isMoviesLoading || isShowsLoading
-  const error = moviesError || showsError
-
+  const isLoading = isMoviesPending || isShowsPending
+  const isError = isMoviesError || isShowsError
   const items = activeTab === "shows" ? shows : movies
 
   const content = () => {
     if (isLoading) return <TrendingCardsSkeleton />
-    if (error)
+    if (isError)
       return (
         <div className="flex flex-col items-center gap-2">
-          <p>Не удалось загрузить фильмы</p>
+          <p>
+            Не удалось загрузить фильмы
+            {isMoviesError ? moviesError?.message : showsError?.message}
+          </p>
           <Button
             onClick={() => {
               refetchMovies()
@@ -59,6 +53,7 @@ export function TrendingCards() {
         title={item.title}
         voteAverage={item.voteAverage}
         releaseDate={item.releaseDate}
+        genreIds={item.genreIds}
       />
     ))
   }

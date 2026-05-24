@@ -1,39 +1,30 @@
-import {
-  fetchMovieGenres,
-  type MovieGenreResponse,
-} from "@/api/fetchMovieGenres"
 import { fetchMovieVideos } from "@/api/fetchMovieVideos"
-import { fetchTrendingMovies } from "@/api/fetchTrendingMovies"
 import type { MovieVideosResponse } from "@/types/MovieVideosResponse"
-import type { TrendingMoviesResponse } from "@/types/TrendingMoviesResponse"
 import { normalizeMedia } from "@/utils/normalizeMedia"
 import { useQuery } from "@tanstack/react-query"
+import { useMovieGenres } from "./useMovieGenres"
+import { useTrendingMovies } from "./useTrendingMovies"
 
 export const useMainMovie = () => {
   const {
-    data: moviesData,
-    error: moviesError,
-    isPending: isMoviesPending,
-    refetch: refetchMovies,
-  } = useQuery<TrendingMoviesResponse>({
-    queryKey: ["movies", "trending"],
-    queryFn: () => fetchTrendingMovies("week"),
-  })
-
+    moviesData,
+    isMoviesPending,
+    isMoviesError,
+    moviesError,
+    refetchMovies,
+  } = useTrendingMovies("week", true)
   const {
-    data: genresData,
-    error: genresError,
-    isPending: isGenresPending,
-    refetch: refetchGenres,
-  } = useQuery<MovieGenreResponse>({
-    queryKey: ["movies", "genres"],
-    queryFn: fetchMovieGenres,
-  })
-
+    movieGenresData,
+    isGenresPending,
+    isGenresError,
+    genresError,
+    refetchGenres,
+  } = useMovieGenres()
   const {
     data: videosData,
-    error: videosError,
     isPending: isVideosPending,
+    isError: isVideosError,
+    error: videosError,
     refetch: refetchVideos,
   } = useQuery<MovieVideosResponse>({
     queryKey: ["movies", "videos", moviesData?.results[0].id],
@@ -43,8 +34,8 @@ export const useMainMovie = () => {
 
   const movie = moviesData && normalizeMedia(moviesData.results[0])
   const movieGenres =
-    genresData &&
-    genresData.genres.filter((g) => movie?.genreIds.includes(g.id))
+    movieGenresData &&
+    movieGenresData.genres.filter((g) => movie?.genreIds.includes(g.id))
   const movieTrailer =
     videosData &&
     (videosData.results.find(
@@ -59,6 +50,7 @@ export const useMainMovie = () => {
     movieGenres,
     movieTrailer,
     isPending: isMoviesPending || isGenresPending || isVideosPending,
+    isError: isMoviesError || isGenresError || isVideosError,
     error: moviesError ?? genresError ?? videosError,
     refetch: () =>
       Promise.all([refetchMovies(), refetchGenres(), refetchVideos()]),

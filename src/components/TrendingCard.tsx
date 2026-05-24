@@ -9,6 +9,7 @@ export interface TrendingCardProps {
   title: string
   voteAverage: number
   releaseDate: string
+  genreIds: number[]
 }
 
 export function TrendingCard({
@@ -18,6 +19,7 @@ export function TrendingCard({
   title,
   voteAverage,
   releaseDate,
+  genreIds,
 }: TrendingCardProps) {
   return (
     <Card className="relative transform gap-2 overflow-hidden rounded-md p-0 transition-transform hover:-translate-y-1">
@@ -39,6 +41,7 @@ export function TrendingCard({
           title={title}
           voteAverage={voteAverage}
           releaseDate={releaseDate}
+          genreIds={genreIds}
         />
         <CardTitle className="truncate text-sm">
           {title.length > 30 ? `${title.slice(0, 30)}...` : title}

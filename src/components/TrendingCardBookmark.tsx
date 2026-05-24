@@ -9,6 +9,8 @@ import { useState } from "react"
 import type { TrendingCardProps } from "./TrendingCard"
 import { useStorageContext } from "@/hooks/useStorageContext"
 import { statusColors } from "@/utils/watchListStatusColors"
+import { useMovieGenres } from "@/hooks/useMovieGenres"
+import { useShowGenres } from "@/hooks/useShowGenres"
 
 export function TrendingCardBookmark({
   id,
@@ -17,13 +19,21 @@ export function TrendingCardBookmark({
   title,
   voteAverage,
   releaseDate,
+  genreIds,
 }: TrendingCardProps) {
   const { storage, setStorage } = useStorageContext()
+  const { movieGenresData } = useMovieGenres()
+  const { showGenresData } = useShowGenres()
 
   const [bookmarkType, setBookmarkType] = useState<
     "Watching" | "Completed" | "Planning" | ""
   >(storage.find((item) => item.id === id)?.status || "")
   const [isOpen, setIsOpen] = useState(false)
+
+  const genresData = mediaType === "movie" ? movieGenresData : showGenresData
+  const genres =
+    genresData &&
+    genresData.genres.filter((genre) => genreIds.includes(genre.id))
 
   const handleTriggerClick = () => {
     if (bookmarkType) {
@@ -47,7 +57,8 @@ export function TrendingCardBookmark({
         voteAverage,
         releaseDate,
         status: type,
-        addedAt: new Date(),
+        addedAt: new Date().toISOString(),
+        genres: genres ?? [],
       },
     ])
   }

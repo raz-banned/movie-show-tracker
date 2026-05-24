@@ -10,7 +10,13 @@ import { statusBgColors, statusColors } from "@/utils/watchListStatusColors"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
 
-export function MainCardBookmark({ movie }: { movie: NormalizedMedia }) {
+export function MainCardBookmark({
+  movie,
+  genres,
+}: {
+  movie: NormalizedMedia
+  genres: { id: number; name: string }[]
+}) {
   const { storage, setStorage } = useStorageContext()
 
   const [bookmarkType, setBookmarkType] = useState<
@@ -32,7 +38,12 @@ export function MainCardBookmark({ movie }: { movie: NormalizedMedia }) {
     setIsOpen(false)
     setStorage((prev) => [
       ...prev,
-      { ...movie, status: type, addedAt: new Date() },
+      {
+        ...movie,
+        status: type,
+        addedAt: new Date().toISOString(),
+        genres,
+      },
     ])
   }
 

@@ -47,12 +47,11 @@ export function WatchListItem({
             </span>
           </div>
           <ul className="flex gap-1">
-            <li>
-              <Badge variant="outline">sci-fi</Badge>
-            </li>
-            <li>
-              <Badge variant="outline">Adventure</Badge>
-            </li>
+            {item.genres.map((genre) => (
+              <li key={genre.id}>
+                <Badge variant="outline">{genre.name}</Badge>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

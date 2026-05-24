@@ -25,6 +25,20 @@ function WatchListPage() {
       const dateB = new Date(b.addedAt).getTime()
       return dateB - dateA
     }),
+    asc: [...filteredStorage].sort((a, b) => a.title.localeCompare(b.title)),
+    desc: [...filteredStorage].sort((a, b) => b.title.localeCompare(a.title)),
+    newest: [...filteredStorage].sort((a, b) => {
+      const dateA = new Date(a.releaseDate).getTime()
+      const dateB = new Date(b.releaseDate).getTime()
+      return dateB - dateA
+    }),
+    oldest: [...filteredStorage].sort((a, b) => {
+      const dateA = new Date(a.releaseDate).getTime()
+      const dateB = new Date(b.releaseDate).getTime()
+      return dateA - dateB
+    }),
+    highest: [...filteredStorage].sort((a, b) => b.voteAverage - a.voteAverage),
+    lowest: [...filteredStorage].sort((a, b) => a.voteAverage - b.voteAverage),
   }
 
   const movieCount = storage.filter((item) => item.mediaType === "movie").length
