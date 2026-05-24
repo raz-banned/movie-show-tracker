@@ -25,7 +25,7 @@ export function TrendingCards() {
       return (
         <div className="flex flex-col items-center gap-2">
           <p>
-            Не удалось загрузить фильмы
+            Couldn't load {activeTab === "shows" ? "shows" : "movies"}
             {isMoviesError ? moviesError?.message : showsError?.message}
           </p>
           <Button

@@ -4,7 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useStorageContext } from "@/hooks/useStorageContext"
+import { useWatchListContext } from "@/hooks/useStorageContext"
 import type { NormalizedMedia } from "@/types/NormalizedMedia"
 import { statusBgColors, statusColors } from "@/utils/watchListStatusColors"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
@@ -17,26 +17,25 @@ export function MainCardBookmark({
   movie: NormalizedMedia
   genres: { id: number; name: string }[]
 }) {
-  const { storage, setStorage } = useStorageContext()
+  const { watchList, setWatchList } = useWatchListContext()
 
-  const [bookmarkType, setBookmarkType] = useState<
-    "Watching" | "Completed" | "Planning" | ""
-  >(storage.find((item) => item.id === movie.id)?.status || "")
+  const bookmarkStatus =
+    watchList.find((item) => item.id === movie.id)?.status || ""
   const [isOpen, setIsOpen] = useState(false)
 
   const handleTriggerClick = () => {
-    if (bookmarkType) {
-      setBookmarkType("")
-      setStorage((prev) => prev.filter((bookmark) => bookmark.id !== movie.id))
+    if (bookmarkStatus) {
+      setWatchList((prev) =>
+        prev.filter((bookmark) => bookmark.id !== movie.id)
+      )
     } else {
       setIsOpen(true)
     }
   }
 
   const handleOptionClick = (type: "Watching" | "Completed" | "Planning") => {
-    setBookmarkType(type)
     setIsOpen(false)
-    setStorage((prev) => [
+    setWatchList((prev) => [
       ...prev,
       {
         ...movie,

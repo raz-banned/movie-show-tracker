@@ -6,11 +6,13 @@ import {
 } from "@/components/ui/popover"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
-import type { TrendingCardProps } from "./TrendingCard"
-import { useStorageContext } from "@/hooks/useStorageContext"
 import { statusColors } from "@/utils/watchListStatusColors"
-import { useMovieGenres } from "@/hooks/useMovieGenres"
-import { useShowGenres } from "@/hooks/useShowGenres"
+import type { TrendingProps } from "@/types/TrendingProps"
+import { useWatchListContext } from "@/hooks/useStorageContext"
+
+interface TrendingCardBookmarkProps extends TrendingProps {
+  genres: { id: number; name: string }[] | undefined
+}
 
 export function TrendingCardBookmark({
   id,
@@ -19,35 +21,24 @@ export function TrendingCardBookmark({
   title,
   voteAverage,
   releaseDate,
-  genreIds,
-}: TrendingCardProps) {
-  const { storage, setStorage } = useStorageContext()
-  const { movieGenresData } = useMovieGenres()
-  const { showGenresData } = useShowGenres()
+  genres,
+}: TrendingCardBookmarkProps) {
+  const { watchList, setWatchList } = useWatchListContext()
 
-  const [bookmarkType, setBookmarkType] = useState<
-    "Watching" | "Completed" | "Planning" | ""
-  >(storage.find((item) => item.id === id)?.status || "")
+  const bookmarkStatus = watchList.find((item) => item.id === id)?.status || ""
   const [isOpen, setIsOpen] = useState(false)
 
-  const genresData = mediaType === "movie" ? movieGenresData : showGenresData
-  const genres =
-    genresData &&
-    genresData.genres.filter((genre) => genreIds.includes(genre.id))
-
   const handleTriggerClick = () => {
-    if (bookmarkType) {
-      setBookmarkType("")
-      setStorage((prev) => prev.filter((bookmark) => bookmark.id !== id))
+    if (bookmarkStatus) {
+      setWatchList((prev) => prev.filter((bookmark) => bookmark.id !== id))
     } else {
       setIsOpen(true)
     }
   }
 
   const handleOptionClick = (type: "Watching" | "Completed" | "Planning") => {
-    setBookmarkType(type)
     setIsOpen(false)
-    setStorage((prev) => [
+    setWatchList((prev) => [
       ...prev,
       {
         id,

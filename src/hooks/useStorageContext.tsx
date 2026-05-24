@@ -1,10 +1,12 @@
-import { StorageContext } from "@/context/StorageContext"
+import { WatchListContext } from "@/context/WatchListContext"
 import { useContext } from "react"
 
-export const useStorageContext = () => {
-  const context = useContext(StorageContext)
+export const useWatchListContext = () => {
+  const context = useContext(WatchListContext)
   if (!context) {
-    throw new Error("useStorageContext must be used within a StorageProvider")
+    throw new Error(
+      "useWatchListContext must be used within a WatchListProvider"
+    )
   }
   return context
 }
