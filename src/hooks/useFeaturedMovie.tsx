@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query"
 import { useMovieGenres } from "./useMovieGenres"
 import { useTrendingMovies } from "./useTrendingMovies"
 
-export const useMainMovie = () => {
+export const useFeaturedMovie = () => {
   const {
     moviesData,
     isMoviesPending,

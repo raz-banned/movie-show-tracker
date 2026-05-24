@@ -3,17 +3,19 @@ import { useSearchParams } from "react-router"
 import { useMovieGenres } from "./useMovieGenres"
 import { useTrendingMovies } from "./useTrendingMovies"
 
-export const useMovies = () => {
+export const useMovieCards = () => {
   const [searchParams] = useSearchParams()
 
   const {
     moviesData,
     isMoviesPending,
+    isMoviesLoading,
     isMoviesError,
     moviesError,
     refetchMovies,
   } = useTrendingMovies(
     "week",
+    // tab is null on fresh homepage load (no URL param yet)
     searchParams.get("tab") === "movies" || !searchParams.get("tab")
   )
   const { movieGenresData } = useMovieGenres()
@@ -30,6 +32,7 @@ export const useMovies = () => {
     movies,
     movieGenres,
     isMoviesPending,
+    isMoviesLoading,
     isMoviesError,
     moviesError,
     refetchMovies,

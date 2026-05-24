@@ -3,11 +3,11 @@ import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
-import { useMainMovie } from "@/hooks/useMainMovie"
 import { MainCardSkeleton } from "./MainCardSkeleton"
 import { MainCardBookmark } from "./MainCardBookmark"
+import { useFeaturedMovie } from "@/hooks/useFeaturedMovie"
 
-export function MainMovieCard() {
+export function HeroMovieCard() {
   const {
     movie,
     movieGenres,
@@ -16,7 +16,7 @@ export function MainMovieCard() {
     isError,
     error,
     refetch,
-  } = useMainMovie()
+  } = useFeaturedMovie()
 
   if (isPending) return <MainCardSkeleton />
   if (isError) {
