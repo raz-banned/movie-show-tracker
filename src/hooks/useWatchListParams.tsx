@@ -1,15 +1,11 @@
 import { useSearchParams } from "react-router"
 
 export const useWatchListParams = () => {
-  const [searchParams, setSearchParams] = useSearchParams({
-    tab: "all",
-    layout: "list",
-    sort: "recentlyAdded",
-  })
+  const [searchParams, setSearchParams] = useSearchParams()
 
-  const tab = searchParams.get("tab")!
-  const layout = searchParams.get("layout")!
-  const sort = searchParams.get("sort")!
+  const tab = searchParams.get("tab") || "all"
+  const layout = searchParams.get("layout") || "list"
+  const sort = searchParams.get("sort") || "recentlyAdded"
 
   const handleParamChange = (param: string, value: string) => {
     setSearchParams((prev) => {

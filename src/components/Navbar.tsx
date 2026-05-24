@@ -14,7 +14,7 @@ export function Navbar() {
         <PopoverContent align="start" className="max-w-24">
           <ul className={`flex flex-col gap-4`}>
             <li className="cursor-pointer transition hover:text-primary">
-              <Link to="/">Home</Link>
+              <Link to="/?tab=movies">Home</Link>
             </li>
             <li className="cursor-pointer transition hover:text-primary">
               <Link to="/genres">Genres</Link>
@@ -25,7 +25,7 @@ export function Navbar() {
 
       <ul className="hidden md:flex md:flex-row md:gap-12">
         <li className="cursor-pointer transition hover:text-primary">
-          <Link to="/">Home</Link>
+          <Link to="/?tab=movies">Home</Link>
         </li>
         <li className="cursor-pointer transition hover:text-primary">
           <Link to="/genres">Genres</Link>

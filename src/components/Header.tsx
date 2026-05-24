@@ -18,7 +18,7 @@ export function Header() {
               cine<span className="text-primary">bon</span>
             </h1>
             <Button asChild size="icon" variant="ghost">
-              <Link to="/watchlist" className="md:order-last">
+              <Link to="/watchlist?tab=all" className="md:order-last">
                 <BookmarkSimpleIcon
                   size={24}
                   weight={
