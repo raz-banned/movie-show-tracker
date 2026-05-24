@@ -1,4 +1,4 @@
-import { options } from "./optionsGet"
+import { options } from "./apiOptions"
 
 export const fetchTrendingMovies = async (timeWindow: "week" | "day") => {
   const res = await fetch(

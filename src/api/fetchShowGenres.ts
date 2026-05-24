@@ -1,4 +1,4 @@
-import { options } from "./optionsGet"
+import { options } from "./apiOptions"
 
 export interface ShowGenreResponse {
   genres: {
