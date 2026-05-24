@@ -2,8 +2,11 @@ import { fetchTrendingShows } from "@/api/fetchTrendingShows"
 import type { TrendingShowsResponse } from "@/types/TrendingShowsResponse"
 import { useQuery } from "@tanstack/react-query"
 
-export const useTrendingShows = (timeWindow: 'week' | 'day', enabled: boolean) => {
-  const { data, isPending, isError, error, refetch } =
+export const useTrendingShows = (
+  timeWindow: "week" | "day",
+  enabled: boolean
+) => {
+  const { data, isPending, isLoading, isError, error, refetch } =
     useQuery<TrendingShowsResponse>({
       queryKey: ["shows", "trending", timeWindow],
       queryFn: () => fetchTrendingShows(timeWindow),
@@ -13,6 +16,7 @@ export const useTrendingShows = (timeWindow: 'week' | 'day', enabled: boolean) =
   return {
     showsData: data,
     isShowsPending: isPending,
+    isShowsLoading: isLoading,
     isShowsError: isError,
     showsError: error,
     refetchShows: refetch,

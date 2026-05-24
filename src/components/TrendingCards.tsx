@@ -1,21 +1,21 @@
 import { ArrowRightIcon } from "@phosphor-icons/react"
 import { Button } from "./ui/button"
 import { Link, useSearchParams } from "react-router"
-import { useMovies } from "@/hooks/useMovies"
 import { TrendingCard } from "./TrendingCard"
 import { TrendingCardsSkeleton } from "./TrendingCardsSkeleton"
-import { useShows } from "@/hooks/useShows"
+import { useMovieCards } from "@/hooks/useMovieCards"
+import { useShowCards } from "@/hooks/useShowCards"
 
 export function TrendingCards() {
-  const [searchParams, setSearchParams] = useSearchParams({ tab: "movies" })
-  const activeTab = searchParams.get("tab")
+  const [searchParams, setSearchParams] = useSearchParams()
+  const activeTab = searchParams.get("tab") || "movies"
 
-  const { movies, isMoviesPending, isMoviesError, moviesError, refetchMovies } =
-    useMovies()
-  const { shows, isShowsPending, isShowsError, showsError, refetchShows } =
-    useShows()
+  const { movies, isMoviesLoading, isMoviesError, moviesError, refetchMovies } =
+    useMovieCards()
+  const { shows, isShowsLoading, isShowsError, showsError, refetchShows } =
+    useShowCards()
 
-  const isLoading = isMoviesPending || isShowsPending
+  const isLoading = isMoviesLoading || isShowsLoading
   const isError = isMoviesError || isShowsError
   const items = activeTab === "shows" ? shows : movies
 
@@ -34,11 +34,11 @@ export function TrendingCards() {
               refetchShows()
             }}
           >
-            Попробовать снова
+            Try again
           </Button>
         </div>
       )
-    if (!movies?.length)
+    if (!items?.length)
       return (
         <div className="flex flex-col items-center gap-2">
           <p>Нет результатов</p>

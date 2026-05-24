@@ -6,7 +6,7 @@ export const useTrendingMovies = (
   timeWindow: "week" | "day",
   enabled: boolean
 ) => {
-  const { data, isPending, isError, error, refetch } =
+  const { data, isPending, isLoading, isError, error, refetch } =
     useQuery<TrendingMoviesResponse>({
       queryKey: ["movies", "trending", timeWindow],
       queryFn: () => fetchTrendingMovies(timeWindow),
@@ -16,6 +16,7 @@ export const useTrendingMovies = (
   return {
     moviesData: data,
     isMoviesPending: isPending,
+    isMoviesLoading: isLoading,
     isMoviesError: isError,
     moviesError: error,
     refetchMovies: refetch,
