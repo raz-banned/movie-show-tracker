@@ -1,14 +1,11 @@
 import { Card, CardDescription, CardHeader, CardTitle } from "./ui/card"
 import { TrendingCardBookmark } from "./TrendingCardBookmark"
 import { Badge } from "./ui/badge"
+import { useShowGenres } from "@/hooks/useShowGenres"
+import { useMovieGenres } from "@/hooks/useMovieGenres"
+import type { TrendingProps } from "@/types/TrendingProps"
 
-export interface TrendingCardProps {
-  id: number
-  mediaType: "movie" | "tv"
-  posterPath: string
-  title: string
-  voteAverage: number
-  releaseDate: string
+interface TrendingCardProps extends TrendingProps {
   genreIds: number[]
 }
 
@@ -21,6 +18,14 @@ export function TrendingCard({
   releaseDate,
   genreIds,
 }: TrendingCardProps) {
+  const { movieGenresData } = useMovieGenres()
+  const { showGenresData } = useShowGenres()
+
+  const genresData = mediaType === "movie" ? movieGenresData : showGenresData
+  const genres =
+    genresData &&
+    genresData.genres.filter((genre) => genreIds.includes(genre.id))
+
   return (
     <Card className="relative transform gap-2 overflow-hidden rounded-md p-0 transition-transform hover:-translate-y-1">
       <div className="aspect-2/3 w-full overflow-hidden">
@@ -41,7 +46,7 @@ export function TrendingCard({
           title={title}
           voteAverage={voteAverage}
           releaseDate={releaseDate}
-          genreIds={genreIds}
+          genres={genres}
         />
         <CardTitle className="truncate text-sm">
           {title.length > 30 ? `${title.slice(0, 30)}...` : title}

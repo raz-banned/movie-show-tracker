@@ -61,14 +61,14 @@ export function TrendingCardBookmark({
           size="icon-sm"
           variant="outline"
           className={
-            statusColors[bookmarkType] +
+            statusColors[bookmarkStatus] +
             " absolute top-2 left-2 rounded-sm bg-accent p-1"
           }
           onClick={handleTriggerClick}
         >
           <BookmarkSimpleIcon
             size={24}
-            weight={bookmarkType ? "fill" : "regular"}
+            weight={bookmarkStatus ? "fill" : "regular"}
           />
         </Button>
       </PopoverTrigger>
