@@ -51,14 +51,14 @@ export function MainCardBookmark({
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className={`${statusColors[bookmarkType]} ${statusBgColors[bookmarkType]}`}
+          className={`${statusColors[bookmarkStatus]} ${statusBgColors[bookmarkStatus]}`}
           onClick={handleTriggerClick}
         >
           <BookmarkSimpleIcon
             size={24}
-            weight={bookmarkType ? "fill" : "regular"}
+            weight={bookmarkStatus ? "fill" : "regular"}
           />
-          <span>{bookmarkType || "Watchlist"}</span>
+          <span>{bookmarkStatus || "Watchlist"}</span>
         </Button>
       </PopoverTrigger>
       <PopoverContent align="center" className="flex w-auto flex-row gap-1 p-2">
