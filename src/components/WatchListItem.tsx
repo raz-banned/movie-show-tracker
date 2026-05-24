@@ -3,22 +3,21 @@ import { Badge } from "./ui/badge"
 import { Button } from "./ui/button"
 import type { WatchListStorageItem } from "@/types/WatchListStorageItem"
 import { timeAgo } from "@/utils/timeAgo"
-import type { Dispatch, SetStateAction } from "react"
 import { statusBgColors, statusColors } from "@/utils/watchListStatusColors"
 
 export function WatchListItem({
   item,
   layout,
-  onStorageChange,
+  onDelete,
 }: {
   item: WatchListStorageItem
   layout: string
-  onStorageChange: Dispatch<SetStateAction<WatchListStorageItem[]>>
+  onDelete: (id: number) => void
 }) {
   const timePassed = timeAgo(new Date(item.addedAt))
 
   const handleDeleteClick = () => {
-    onStorageChange((prev) => prev.filter((i) => i.id !== item.id))
+    onDelete(item.id)
   }
 
   return layout === "list" ? (
