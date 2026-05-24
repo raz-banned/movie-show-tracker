@@ -16,17 +16,26 @@ import {
 
 interface ControlProps {
   layout: string
+  sort: string
   onParamChange: (param: string, value: string) => void
 }
 
-export function WatchListControls({ layout, onParamChange }: ControlProps) {
+export function WatchListControls({
+  layout,
+  sort,
+  onParamChange,
+}: ControlProps) {
   const handleSortChange = (value: string) => {
     onParamChange("sort", value)
   }
 
   return (
     <div className="flex items-center justify-evenly gap-2">
-      <Select onValueChange={handleSortChange}>
+      <Select
+        defaultValue="recentlyAdded"
+        value={sort || "recentlyAdded"}
+        onValueChange={handleSortChange}
+      >
         <SelectTrigger>
           <SelectValue
             placeholder={

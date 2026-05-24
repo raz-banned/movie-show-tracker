@@ -5,6 +5,7 @@ import { WatchListControls } from "./WatchListControls"
 interface WatchListHeaderProps {
   tab: string
   layout: string
+  sort: string
   movieCount: number
   showCount: number
   onParamChange: (param: string, value: string) => void
@@ -13,6 +14,7 @@ interface WatchListHeaderProps {
 export function WatchListHeader({
   tab,
   layout,
+  sort,
   movieCount,
   showCount,
   onParamChange,
@@ -55,7 +57,11 @@ export function WatchListHeader({
         </div>
       </div>
 
-      <WatchListControls layout={layout} onParamChange={onParamChange} />
+      <WatchListControls
+        layout={layout}
+        sort={sort}
+        onParamChange={onParamChange}
+      />
     </div>
   )
 }
