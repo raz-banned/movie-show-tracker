@@ -1,7 +1,15 @@
 import { MagnifyingGlassIcon } from "@phosphor-icons/react"
-import { Input } from "./ui/input"
 import { useState, type KeyboardEvent } from "react"
 import { useNavigate } from "react-router"
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "./ui/combobox"
+import { SearchItem } from "./SearchItem"
 
 export function Searchbar() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -15,15 +23,30 @@ export function Searchbar() {
     }
   }
 
+  const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
   return (
-    <div className="mx-auto flex max-w-3xl items-center gap-2">
-      <MagnifyingGlassIcon size={24} />
-      <Input
-        placeholder="Search movies..."
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-        onKeyDown={handleKeydown}
-      />
-    </div>
+    <Combobox items={frameworks}>
+      <div className="flex items-center gap-2">
+        <MagnifyingGlassIcon size={20} />
+        <ComboboxInput
+          placeholder="Search movies..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={handleKeydown}
+        />
+      </div>
+
+      <ComboboxContent>
+        <ComboboxEmpty>No movies found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              <SearchItem />
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
   )
 }
