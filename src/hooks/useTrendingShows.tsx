@@ -1,5 +1,5 @@
-import { fetchTrendingShows } from "@/api/fetchTrendingShows"
-import type { TrendingShowsResponse } from "@/types/TrendingShowsResponse"
+
+import { fetchTrendingShows } from "@/api/shows"
 import { useQuery } from "@tanstack/react-query"
 
 export const useTrendingShows = (
@@ -7,7 +7,7 @@ export const useTrendingShows = (
   enabled: boolean
 ) => {
   const { data, isPending, isLoading, isError, error, refetch } =
-    useQuery<TrendingShowsResponse>({
+    useQuery({
       queryKey: ["shows", "trending", timeWindow],
       queryFn: () => fetchTrendingShows(timeWindow),
       enabled,

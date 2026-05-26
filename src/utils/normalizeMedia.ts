@@ -1,6 +1,6 @@
+import type { Movie } from "@/types/movie"
 import type { NormalizedMedia } from "@/types/NormalizedMedia"
-import type { Movie } from "@/types/TrendingMoviesResponse"
-import type { Show } from "@/types/TrendingShowsResponse"
+import type { Show } from "@/types/show"
 
 export const normalizeMedia = (item: Movie | Show): NormalizedMedia => {
   return {

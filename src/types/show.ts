@@ -13,3 +13,10 @@ export interface TrendingShowsResponse {
   total_pages: number
   total_results: number
 }
+
+export interface ShowGenreResponse {
+  genres: {
+    id: number
+    name: string
+  }[]
+}

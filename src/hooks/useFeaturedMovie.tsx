@@ -1,9 +1,8 @@
-import { fetchMovieVideos } from "@/api/fetchMovieVideos"
-import type { MovieVideosResponse } from "@/types/MovieVideosResponse"
 import { normalizeMedia } from "@/utils/normalizeMedia"
 import { useQuery } from "@tanstack/react-query"
 import { useMovieGenres } from "./useMovieGenres"
 import { useTrendingMovies } from "./useTrendingMovies"
+import { fetchMovieVideos } from "@/api/movies"
 
 export const useFeaturedMovie = () => {
   const {
@@ -26,7 +25,7 @@ export const useFeaturedMovie = () => {
     isError: isVideosError,
     error: videosError,
     refetch: refetchVideos,
-  } = useQuery<MovieVideosResponse>({
+  } = useQuery({
     queryKey: ["movies", "videos", moviesData?.results[0].id],
     queryFn: () => fetchMovieVideos(moviesData!.results[0].id),
     enabled: !!moviesData?.results[0].id,

@@ -1,4 +1,5 @@
-import { fetchShowGenres, type ShowGenreResponse } from "@/api/fetchShowGenres"
+
+import { fetchShowGenres } from "@/api/shows"
 import { useQuery } from "@tanstack/react-query"
 
 export const useShowGenres = () => {
@@ -8,7 +9,7 @@ export const useShowGenres = () => {
     isError,
     error,
     refetch: refetchGenres,
-  } = useQuery<ShowGenreResponse>({
+  } = useQuery({
     queryKey: ["shows", "genres"],
     queryFn: fetchShowGenres,
   })
