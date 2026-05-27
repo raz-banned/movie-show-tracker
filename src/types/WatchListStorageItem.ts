@@ -4,8 +4,8 @@ export interface WatchListStorageItem {
   addedAt: string
   mediaType: "movie" | "tv"
   title: string
-  releaseDate: string
-  posterPath: string
+  releaseDate: string | null
+  posterPath: string | null
   voteAverage: number
   genres: { id: number; name: string }[]
 }

@@ -1,10 +1,10 @@
 export interface Trending {
   adult: boolean
-  backdrop_path: string
+  backdrop_path: string | null
   id: number
   original_language: string
-  overview: string
-  poster_path: string
+  overview: string | null
+  poster_path: string | null
   media_type: string
   genre_ids: number[]
   popularity: number

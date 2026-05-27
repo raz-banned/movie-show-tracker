@@ -1,10 +1,25 @@
 import type { Trending } from "./TrendingResponse"
+export interface Movie extends Trending {
+  title: string
+  original_title: string
+  release_date: string | null
+  video: boolean
+}
+
+export interface TrendingMoviesResponse {
+  page: number
+  results: Movie[]
+  total_pages: number
+  total_results: number
+}
+
+export interface Genres {
+  id: number
+  name: string
+}
 
 export interface MovieGenreResponse {
-  genres: {
-    id: number
-    name: string
-  }[]
+  genres: Genres[]
 }
 
 interface Video {
@@ -23,18 +38,4 @@ interface Video {
 export interface MovieVideosResponse {
   id: number
   results: Video[]
-}
-
-export interface Movie extends Trending {
-  title: string
-  original_title: string
-  release_date: string
-  video: boolean
-}
-
-export interface TrendingMoviesResponse {
-  page: number
-  results: Movie[]
-  total_pages: number
-  total_results: number
 }

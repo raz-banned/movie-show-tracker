@@ -3,7 +3,7 @@ import type { Trending } from "./TrendingResponse"
 export interface Show extends Trending {
   name: string
   original_name: string
-  first_air_date: string
+  first_air_date: string | null
   origin_country: string[]
 }
 

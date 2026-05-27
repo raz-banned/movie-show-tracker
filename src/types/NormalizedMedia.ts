@@ -1,11 +1,11 @@
 export interface NormalizedMedia {
   id: number
-  backdropPath: string
+  backdropPath: string | null
   title: string
-  overview: string
-  posterPath: string
+  overview: string | null
+  posterPath: string | null
   mediaType: "movie" | "tv"
   genreIds: number[]
-  releaseDate: string
+  releaseDate: string | null
   voteAverage: number
 }
