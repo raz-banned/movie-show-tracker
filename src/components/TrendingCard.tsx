@@ -52,10 +52,12 @@ export function TrendingCard({
           {title.length > 30 ? `${title.slice(0, 30)}...` : title}
         </CardTitle>
         <CardDescription className="text-xs">
-          {new Date(releaseDate).toLocaleString("en-US", {
-            month: "short",
-            year: "numeric",
-          })}
+          {releaseDate
+            ? new Date(releaseDate).toLocaleString("en-US", {
+                month: "short",
+                year: "numeric",
+              })
+            : "N/A"}
         </CardDescription>
       </CardHeader>
     </Card>

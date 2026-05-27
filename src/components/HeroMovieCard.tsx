@@ -32,11 +32,15 @@ export function HeroMovieCard() {
   return (
     <Card className="mx-auto flex max-w-7xl flex-col gap-6 rounded-2xl p-6 transition-transform hover:scale-101 md:flex-row md:items-center">
       <div className="w-full md:w-2/5">
-        <img
-          src={`https://image.tmdb.org/t/p/w780${movie.backdropPath}`}
-          alt={movie.title}
-          className="aspect-video w-full rounded-lg object-cover"
-        />
+        {movie.backdropPath ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w780${movie.backdropPath}`}
+            alt={movie.title}
+            className="aspect-video w-full rounded-lg object-cover"
+          />
+        ) : (
+          <div className="aspect-video w-full rounded-lg bg-gray-400" />
+        )}
       </div>
       <div className="flex flex-1 flex-col justify-between gap-2">
         <CardHeader className="p-0">
@@ -49,7 +53,7 @@ export function HeroMovieCard() {
         <CardContent className="flex flex-col gap-4 p-0">
           <div className="flex items-center gap-1 text-sm">
             <span className="text-sm font-medium">
-              {movie.releaseDate.slice(0, 4)}
+              {movie.releaseDate ? movie.releaseDate.slice(0, 4) : "N/A"}
             </span>
             <DotIcon size={24} />
             <span className="text-sm font-semibold text-primary">
@@ -67,7 +71,9 @@ export function HeroMovieCard() {
               </Badge>
             ))}
           </div>
-          <p className="max-w-prose">{movie.overview.slice(0, 200)}...</p>
+          <p className="max-w-prose">
+            {movie.overview ? movie.overview.slice(0, 200) : "N/A"}...
+          </p>
         </CardContent>
         <CardFooter className="mt-2 flex items-center gap-2 p-0">
           <Dialog>

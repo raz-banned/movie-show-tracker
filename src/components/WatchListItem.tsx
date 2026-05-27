@@ -27,18 +27,22 @@ export function WatchListItem({
     >
       <div className="flex min-w-0 flex-1 items-center gap-4">
         <div className="aspect-2/3 w-18 shrink-0 md:w-16">
-          <img
-            src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
-            alt={item.title}
-            className="h-full w-full rounded-sm bg-gray-400"
-          />
+          {item.posterPath ? (
+            <img
+              src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
+              alt={item.title}
+              className="h-full w-full rounded-sm bg-gray-400"
+            />
+          ) : (
+            <div className="h-full w-full rounded-sm bg-gray-400" />
+          )}
         </div>
 
         <div className="flex min-w-0 flex-1 flex-col justify-between self-stretch py-1">
           <h2 className="line-clamp-1 text-lg font-semibold">{item.title}</h2>
           <div className="flex">
             <span className="text-sm text-muted-foreground">
-              {item.releaseDate.split("-")[0]}
+              {item.releaseDate ? item.releaseDate.split("-")[0] : "N/A"}
             </span>
             <DotIcon size={20} />
             <span className="text-sm text-primary">
@@ -78,11 +82,15 @@ export function WatchListItem({
       className="mx-auto flex w-full max-w-60 flex-col items-center gap-2 rounded-sm border border-border bg-accent p-3"
     >
       <div className="aspect-2/3 w-full">
-        <img
-          src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
-          alt={item.title}
-          className="h-full w-full rounded-sm bg-gray-400"
-        />
+        {item.posterPath ? (
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
+            alt={item.title}
+            className="h-full w-full rounded-sm bg-gray-400"
+          />
+        ) : (
+          <div className="h-full w-full rounded-sm bg-gray-400" />
+        )}
       </div>
 
       <div className="flex w-full flex-col items-center gap-1">
@@ -91,7 +99,7 @@ export function WatchListItem({
         </h2>
         <div className="flex items-center gap-1">
           <span className="text-sm text-muted-foreground">
-            {item.releaseDate.split("-")[0]}
+            {item.releaseDate ? item.releaseDate.split("-")[0] : "N/A"}
           </span>
           <DotIcon size={20} />
           <span className="text-sm text-primary">

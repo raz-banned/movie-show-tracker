@@ -29,11 +29,15 @@ function WatchListPage() {
       asc: [...filteredStorage].sort((a, b) => a.title.localeCompare(b.title)),
       desc: [...filteredStorage].sort((a, b) => b.title.localeCompare(a.title)),
       newest: [...filteredStorage].sort((a, b) => {
+        if (!a.releaseDate) return 1
+        if (!b.releaseDate) return -1
         const dateA = new Date(a.releaseDate).getTime()
         const dateB = new Date(b.releaseDate).getTime()
         return dateB - dateA
       }),
       oldest: [...filteredStorage].sort((a, b) => {
+        if (!a.releaseDate) return 1
+        if (!b.releaseDate) return -1
         const dateA = new Date(a.releaseDate).getTime()
         const dateB = new Date(b.releaseDate).getTime()
         return dateA - dateB
