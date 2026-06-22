@@ -3,15 +3,12 @@ import type {
   MovieVideosResponse,
   TrendingMoviesResponse,
 } from "@/types/movie"
-import { options } from "./apiOptions"
+import { api, options } from "../lib/api"
 
 export const fetchTrendingMovies = async (
   timeWindow: "week" | "day"
 ): Promise<TrendingMoviesResponse> => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/trending/movie/${timeWindow}?language=en-US`,
-    options
-  )
+  const res = await api(`/trending/movie/${timeWindow}`, options)
   if (!res.ok) {
     throw new Error("Failed to fetch trending movies")
   }
@@ -22,8 +19,8 @@ export const fetchTrendingMovies = async (
 export const fetchMovieByTitle = async (
   title: string
 ): Promise<TrendingMoviesResponse> => {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(title)}&language=en-US&page=1&include_adult=false`,
+  const response = await api(
+    `/search/movie?query=${encodeURIComponent(title)}&language=en-US&page=1&include_adult=false`,
     options
   )
   if (!response.ok) {
@@ -33,10 +30,7 @@ export const fetchMovieByTitle = async (
 }
 
 export const fetchMovieGenres = async (): Promise<MovieGenreResponse> => {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?language=en-US",
-    options
-  )
+  const res = await api(`/genre/movie/list`, options)
   if (!res.ok) {
     throw new Error("Failed to fetch movie genres")
   }
@@ -47,10 +41,7 @@ export const fetchMovieGenres = async (): Promise<MovieGenreResponse> => {
 export const fetchMovieVideos = async (
   movieId: number
 ): Promise<MovieVideosResponse> => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?language=en-US`,
-    options
-  )
+  const res = await api(`/movie/${movieId}/videos`, options)
   if (!res.ok) {
     throw new Error("Failed to fetch movie videos")
   }

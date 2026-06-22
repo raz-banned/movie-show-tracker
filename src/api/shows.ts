@@ -1,13 +1,10 @@
 import type { ShowGenreResponse, TrendingShowsResponse } from "@/types/show"
-import { options } from "./apiOptions"
+import { api, options } from "../lib/api"
 
 export const fetchTrendingShows = async (
   timeWindow: "week" | "day"
 ): Promise<TrendingShowsResponse> => {
-  const res = await fetch(
-    `https://api.themoviedb.org/3/trending/tv/${timeWindow}?language=en-US`,
-    options
-  )
+  const res = await api(`/trending/tv/${timeWindow}?language=en-US`, options)
   if (!res.ok) {
     throw new Error("Failed to fetch trending shows")
   }
@@ -16,10 +13,7 @@ export const fetchTrendingShows = async (
 }
 
 export const fetchShowGenres = async (): Promise<ShowGenreResponse> => {
-  const res = await fetch(
-    "https://api.themoviedb.org/3/genre/tv/list?language=en-US",
-    options
-  )
+  const res = await api(`/genre/tv/list`, options)
   if (!res.ok) {
     throw new Error("Failed to fetch show genres")
   }
