@@ -11,10 +11,10 @@ export function Header() {
   return (
     <>
       <header className="p-4">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:gap-16 md:p-4">
+        <div className="mx-auto flex max-w-7xl flex-col gap-3 md:flex-row md:items-center md:gap-8 md:p-4">
           <div className="flex items-center justify-between md:contents">
             <Navbar />
-            <h1 className="text-2xl font-bold md:order-first">
+            <h1 className="text-2xl font-bold md:order-first lg:mr-12">
               cine<span className="text-primary">bon</span>
             </h1>
             <Button asChild size="icon" variant="ghost">
