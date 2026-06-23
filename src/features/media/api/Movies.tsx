@@ -1,14 +1,9 @@
-import type {
-  MovieGenreResponse,
-  MovieVideosResponse,
-  TrendingMoviesResponse,
-} from "@/types"
+import type { MovieVideosResponse, TrendingMoviesResponse } from "../types"
 import { api, options } from "../../../lib/api"
 import { useSearchParams } from "react-router"
-import {  selectNormalizedMedia } from "@/lib/utils"
 import { useQuery } from "@tanstack/react-query"
-
-
+import { selectNormalizedMedia } from "../utils"
+import { useMovieGenres } from "@/hooks/Genres"
 
 const fetchTrendingMovies = async (
   timeWindow: "week" | "day"
@@ -32,15 +27,6 @@ const fetchMovieByTitle = async (
     throw new Error("Failed to fetch movie data")
   }
   return response.json()
-}
-
-const fetchMovieGenres = async (): Promise<MovieGenreResponse> => {
-  const res = await api(`/genre/movie/list`, options)
-  if (!res.ok) {
-    throw new Error("Failed to fetch movie genres")
-  }
-  const data = await res.json()
-  return data
 }
 
 const fetchMovieVideos = async (
@@ -72,31 +58,6 @@ export const useTrendingMovies = (
     isMoviesError: isError,
     moviesError: error,
     refetchMovies: refetch,
-  }
-}
-
-export const useMovieGenres = () => {
-  const {
-    data,
-    isPending,
-    isError,
-    error,
-    refetch: refetchGenres,
-  } = useQuery({
-    queryKey: ["movies", "genres"],
-    queryFn: fetchMovieGenres,
-    select: (data) => ({
-      ...data,
-      genres: data.genres.map((genre) => ({ ...genre, id: Number(genre.id) })),
-    }),
-  })
-
-  return {
-    movieGenresData: data,
-    isGenresPending: isPending,
-    isGenresError: isError,
-    genresError: error,
-    refetchGenres: refetchGenres,
   }
 }
 
