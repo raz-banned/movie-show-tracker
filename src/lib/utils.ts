@@ -1,6 +1,6 @@
+import type { Genres, NormalizedMedia } from "@/types"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import type { Genres, Movie, Show, NormalizedMedia } from "@/types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -9,30 +9,6 @@ export function cn(...inputs: ClassValue[]) {
 export const findGenres = (movie: NormalizedMedia, genres: Genres[]) => {
   return genres.filter((genre) => movie.genreIds.includes(genre.id))
 }
-
-export const normalizeMedia = (item: Movie | Show): NormalizedMedia => {
-  return {
-    id: item.id,
-    backdropPath: item.backdrop_path,
-    title: "title" in item ? item.title : item.name,
-    overview: item.overview,
-    posterPath: item.poster_path,
-    mediaType: item.media_type === "tv" ? "tv" : "movie",
-    genreIds: item.genre_ids,
-    releaseDate:
-      "release_date" in item ? item.release_date : item.first_air_date,
-    voteAverage: item.vote_average,
-  }
-}
-
-export const selectNormalizedMedia = <
-  T extends { results: Parameters<typeof normalizeMedia>[0][] },
->(
-  data: T
-): Omit<T, "results"> & { results: NormalizedMedia[] } => ({
-  ...data,
-  results: data.results.map(normalizeMedia),
-})
 
 const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" })
 
