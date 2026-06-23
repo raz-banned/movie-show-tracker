@@ -5,8 +5,8 @@ import {
   CardTitle,
 } from "../../../components/ui/card"
 import { Badge } from "../../../components/ui/badge"
-import { useShowGenres } from "@/features/media/api/Shows"
-import { useMovieGenres } from "@/features/media/api/Movies"
+import { useShowGenres } from "@/hooks/Genres"
+import { useMovieGenres } from "@/hooks/Genres"
 import { Bookmark } from "../../watchlist/components/Bookmark"
 import type { NormalizedMedia } from "@/types"
 

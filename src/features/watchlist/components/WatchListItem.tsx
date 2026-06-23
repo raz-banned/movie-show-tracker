@@ -2,7 +2,8 @@ import { DotIcon, TrashIcon } from "@phosphor-icons/react"
 import { Badge } from "../../../components/ui/badge"
 import { Button } from "../../../components/ui/button"
 import type { WatchListStorageItem } from "@/features/watchlist/watchlist"
-import { timeAgo, statusBgColors, statusColors, findGenres } from "@/lib/utils"
+import { timeAgo, statusBgColors, statusColors } from "@/lib/utils"
+import { findGenres } from "@/lib/utils"
 
 interface WatchListItemProps {
   item: WatchListStorageItem

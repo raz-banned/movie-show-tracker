@@ -1,5 +1,5 @@
-import { useMovieGenres } from "@/features/media/api/Movies"
-import { useShowGenres } from "@/features/media/api/Shows"
+import { useMovieGenres } from "@/hooks/Genres"
+import { useShowGenres } from "@/hooks/Genres"
 import { WatchListHeader } from "@/features/watchlist/components/WatchListHeader"
 import { WatchListItem } from "@/features/watchlist/components/WatchListItem"
 import { useWatchListContext } from "@/features/watchlist/context/WatchListContext"

@@ -8,8 +8,7 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox"
-
-import { useMovieGenres } from "@/features/media/api/Movies"
+import { useMovieGenres } from "@/hooks/Genres"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useSearchedMovies } from "@/features/media/api/Movies"
 import { SearchItem } from "./SearchItem"
