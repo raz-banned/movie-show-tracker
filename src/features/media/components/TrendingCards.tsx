@@ -1,10 +1,23 @@
 import { ArrowRightIcon } from "@phosphor-icons/react"
-import { Button } from "./ui/button"
+import { Button } from "../../../components/ui/button"
 import { Link, useSearchParams } from "react-router"
 import { TrendingCard } from "./TrendingCard"
-import { TrendingCardsSkeleton } from "./TrendingCardsSkeleton"
-import { useMovieCards } from "@/hooks/useMovieCards"
-import { useShowCards } from "@/hooks/useShowCards"
+import { Card } from "../../../components/ui/card"
+import { Skeleton } from "../../../components/ui/skeleton"
+import { useMovieCards } from "@/features/media/api/Movies"
+import { useShowCards } from "@/features/media/api/Shows"
+
+export function TrendingCardsSkeleton() {
+  return Array.from({ length: 5 }).map((_, index) => (
+    <Card key={index} className="flex max-w-60 flex-col gap-2 rounded-md p-0">
+      <Skeleton className="h-90 w-full rounded-md" />
+      <div className="flex flex-col gap-2 p-2">
+        <Skeleton className="h-5 w-full rounded-md" />
+        <Skeleton className="h-5 w-1/3 rounded-md" />
+      </div>
+    </Card>
+  ))
+}
 
 export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -44,18 +57,7 @@ export function TrendingCards() {
           <p>Нет результатов</p>
         </div>
       )
-    return items?.map((item) => (
-      <TrendingCard
-        key={item.id}
-        id={item.id}
-        mediaType={item.mediaType}
-        posterPath={item.posterPath}
-        title={item.title}
-        voteAverage={item.voteAverage}
-        releaseDate={item.releaseDate}
-        genreIds={item.genreIds}
-      />
-    ))
+    return items?.map((item) => <TrendingCard key={item.id} item={item} />)
   }
 
   return (

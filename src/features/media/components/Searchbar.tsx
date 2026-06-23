@@ -7,12 +7,12 @@ import {
   ComboboxInput,
   ComboboxItem,
   ComboboxList,
-} from "./ui/combobox"
-import { SearchItem } from "./SearchItem"
-import { normalizeMedia } from "@/utils/normalizeMedia"
-import { useMovieGenres } from "@/hooks/useMovieGenres"
+} from "@/components/ui/combobox"
+
+import { useMovieGenres } from "@/features/media/api/Movies"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useSearchedMovies } from "@/hooks/useSearchedMovies"
+import { useSearchedMovies } from "@/features/media/api/Movies"
+import { SearchItem } from "./SearchItem"
 
 export function Searchbar() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -26,7 +26,7 @@ export function Searchbar() {
   } = useSearchedMovies(debouncedQuery)
   const { movieGenresData = { genres: [] } } = useMovieGenres()
 
-  const movies = data.results.map(normalizeMedia).slice(0, 10)
+  const movies = data.results.slice(0, 10)
 
   const renderContent = () => {
     if (searchQuery.trim().length === 0) return null

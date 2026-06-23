@@ -1,11 +1,47 @@
 import { DotIcon, PlayIcon, TrendUpIcon } from "@phosphor-icons/react"
-import { Badge } from "./ui/badge"
-import { Button } from "./ui/button"
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card"
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "./ui/dialog"
-import { MainCardSkeleton } from "./MainCardSkeleton"
-import { MainCardBookmark } from "./MainCardBookmark"
-import { useFeaturedMovie } from "@/hooks/useFeaturedMovie"
+import { Badge } from "../../../components/ui/badge"
+import { Button } from "../../../components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "../../../components/ui/card"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "../../../components/ui/dialog"
+import { Skeleton } from "../../../components/ui/skeleton"
+import { Bookmark } from "../../watchlist/components/Bookmark"
+import { useFeaturedMovie } from "@/features/media/api/Movies"
+
+export function MainCardSkeleton() {
+  return (
+    <Card className="mx-auto flex max-w-7xl flex-col gap-6 rounded-2xl p-6 transition-transform hover:scale-101 md:flex-row md:items-center">
+      <div className="w-full md:w-2/5">
+        <Skeleton className="aspect-video w-full rounded-lg" />
+      </div>
+      <div className="flex flex-1 flex-col justify-between gap-4">
+        <Skeleton className="h-4 w-16 rounded" />
+        <Skeleton className="h-6 w-3/4 rounded" />
+        <Skeleton className="h-4 w-24 rounded" />
+        <div className="flex gap-2">
+          <Skeleton className="h-5 w-16 rounded" />
+          <Skeleton className="h-5 w-16 rounded" />
+        </div>
+        <Skeleton className="h-4 w-full rounded" />
+        <Skeleton className="h-4 w-5/6 rounded" />
+        <div className="flex gap-2">
+          <Skeleton className="h-9 w-32 rounded" />
+          <Skeleton className="h-9 w-28 rounded" />
+        </div>
+      </div>
+    </Card>
+  )
+}
 
 export function HeroMovieCard() {
   const {
@@ -103,7 +139,7 @@ export function HeroMovieCard() {
               </div>
             </DialogContent>
           </Dialog>
-          <MainCardBookmark movie={movie} genres={movieGenres ?? []} />
+          <Bookmark item={movie} genres={movieGenres ?? []} />
         </CardFooter>
       </div>
     </Card>

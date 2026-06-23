@@ -1,8 +1,7 @@
 import { DotIcon, StarIcon } from "@phosphor-icons/react"
-import { Badge } from "./ui/badge"
-import type { Genres } from "@/types/movie"
-import type { NormalizedMedia } from "@/types/NormalizedMedia"
-import { findGenres } from "@/utils/findGenres"
+import { Badge } from "@/components/ui/badge"
+import type { Genres, NormalizedMedia } from "@/types"
+import { findGenres } from "@/lib/utils"
 
 interface SearchItemProps {
   movie: NormalizedMedia
