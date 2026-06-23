@@ -1,5 +1,5 @@
 import { DotIcon } from "@phosphor-icons/react"
-import { Button } from "./ui/button"
+import { Button } from "../../../components/ui/button"
 import { WatchListControls } from "./WatchListControls"
 
 interface WatchListHeaderProps {

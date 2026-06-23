@@ -3,7 +3,7 @@ import {
   ListBulletsIcon,
   SquaresFourIcon,
 } from "@phosphor-icons/react"
-import { Button } from "./ui/button"
+import { Button } from "../../../components/ui/button"
 import {
   Select,
   SelectContent,
@@ -12,7 +12,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "./ui/select"
+} from "../../../components/ui/select"
 
 interface ControlProps {
   layout: string
