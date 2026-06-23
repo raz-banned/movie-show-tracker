@@ -25,6 +25,15 @@ export const normalizeMedia = (item: Movie | Show): NormalizedMedia => {
   }
 }
 
+export const selectNormalizedMedia = <
+  T extends { results: Parameters<typeof normalizeMedia>[0][] },
+>(
+  data: T
+): Omit<T, "results"> & { results: NormalizedMedia[] } => ({
+  ...data,
+  results: data.results.map(normalizeMedia),
+})
+
 const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" })
 
 export function timeAgo(date: Date): string {
