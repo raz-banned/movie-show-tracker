@@ -9,23 +9,23 @@ import type { NormalizedMedia } from "@/types"
 import { statusBgColors, statusColors } from "@/lib/utils"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
+import { useMovieGenres, useTvGenres } from "@/hooks/Genres"
 
 interface BookmarkProps {
   item: NormalizedMedia
-  genres: { id: number; name: string }[]
   variant?: "mainCard" | "trendingCard"
 }
 
-export function Bookmark({
-  item,
-  genres,
-  variant = "mainCard",
-}: BookmarkProps) {
+export function Bookmark({ item, variant = "mainCard" }: BookmarkProps) {
   const [isOpen, setIsOpen] = useState(false)
   const { watchList, setWatchList } = useWatchListContext()
+  const { data: movieGenres } = useMovieGenres()
+  const { data: tvGenres } = useTvGenres()
 
+  const genres = item.mediaType === "tv" ? tvGenres : movieGenres
   const bookmarkStatus =
-    watchList.find((item) => item.id === item.id)?.status || ""
+    (item && watchList.find((watchItem) => watchItem.id === item.id)?.status) ||
+    ""
   const isMainCard = variant === "mainCard"
 
   const handleTriggerClick = () => {
@@ -44,7 +44,9 @@ export function Bookmark({
         ...item,
         status: type,
         addedAt: new Date().toISOString(),
-        genres,
+        genres: item.genreIds
+          .map((id) => genres?.[id])
+          .filter((g): g is string => !!g),
       },
     ])
   }
