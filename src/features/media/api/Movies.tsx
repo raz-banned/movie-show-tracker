@@ -44,45 +44,24 @@ export const useTrendingMovies = (
   timeWindow: "week" | "day",
   enabled: boolean
 ) => {
-  const { data, isPending, isLoading, isError, error, refetch } = useQuery({
+  return useQuery({
     queryKey: ["movies", "trending", timeWindow],
     queryFn: () => fetchTrendingMovies(timeWindow),
     enabled,
     select: selectNormalizedMedia,
   })
-
-  return {
-    moviesData: data,
-    isMoviesPending: isPending,
-    isMoviesLoading: isLoading,
-    isMoviesError: isError,
-    moviesError: error,
-    refetchMovies: refetch,
-  }
 }
 
 export const useFeaturedMovie = () => {
   const {
-    moviesData,
-    isMoviesPending,
-    isMoviesError,
-    moviesError,
-    refetchMovies,
+    data: moviesData,
+    isPending,
+    isError,
+    error,
+    refetch: refetchMovies,
   } = useTrendingMovies("week", true)
-  const {
-    movieGenresData,
-    isGenresPending,
-    isGenresError,
-    genresError,
-    refetchGenres,
-  } = useMovieGenres()
-  const {
-    data: videosData,
-    isPending: isVideosPending,
-    isError: isVideosError,
-    error: videosError,
-    refetch: refetchVideos,
-  } = useQuery({
+  const { data: movieGenres, refetch: refetchGenres } = useMovieGenres()
+  const { data: videosData, refetch: refetchVideos } = useQuery({
     queryKey: ["movies", "videos", moviesData?.results[0].id],
     queryFn: ({ queryKey }) => {
       const movieId = queryKey[2]
@@ -92,10 +71,10 @@ export const useFeaturedMovie = () => {
     enabled: !!moviesData?.results[0].id,
   })
 
-  const movie = moviesData && moviesData.results[0]
-  const movieGenres =
-    movieGenresData &&
-    movieGenresData.genres.filter((g) => movie?.genreIds.includes(g.id))
+  const movie = moviesData?.results[0]
+  const genres = movie?.genreIds
+    .map((id) => movieGenres?.[id])
+    .filter((g): g is string => !!g)
   const movieTrailer =
     videosData &&
     (videosData.results.find(
@@ -107,11 +86,11 @@ export const useFeaturedMovie = () => {
 
   return {
     movie,
-    movieGenres,
+    genres,
     movieTrailer,
-    isPending: isMoviesPending || isGenresPending || isVideosPending,
-    isError: isMoviesError || isGenresError || isVideosError,
-    error: moviesError ?? genresError ?? videosError,
+    isPending,
+    isError,
+    error,
     refetch: () =>
       Promise.all([refetchMovies(), refetchGenres(), refetchVideos()]),
   }
@@ -120,28 +99,20 @@ export const useFeaturedMovie = () => {
 export const useMovieCards = () => {
   const [searchParams] = useSearchParams()
 
-  const {
-    moviesData,
-    isMoviesPending,
-    isMoviesLoading,
-    isMoviesError,
-    moviesError,
-    refetchMovies,
-  } = useTrendingMovies(
+  const { data, isPending, isError, error, refetch } = useTrendingMovies(
     "week",
     // tab is null on fresh homepage load (no URL param yet)
     searchParams.get("tab") === "movies" || !searchParams.get("tab")
   )
 
-  const movies = moviesData && moviesData.results.slice(1, 6)
+  const movies = data?.results.slice(1, 6)
 
   return {
     movies,
-    isMoviesPending,
-    isMoviesLoading,
-    isMoviesError,
-    moviesError,
-    refetchMovies,
+    isPending,
+    isError,
+    error,
+    refetch,
   }
 }
 
