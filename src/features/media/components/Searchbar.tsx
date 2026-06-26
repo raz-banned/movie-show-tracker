@@ -23,7 +23,6 @@ export function Searchbar() {
     error,
   } = useSearchedMovies(debouncedQuery)
 
-
   const movies = data.results.slice(0, 10)
 
   const renderContent = () => {
