@@ -3,23 +3,21 @@ import { Badge } from "../../../components/ui/badge"
 import { Button } from "../../../components/ui/button"
 import type { WatchListStorageItem } from "@/features/watchlist/watchlist"
 import { timeAgo, statusBgColors, statusColors } from "@/lib/utils"
-import { findGenres } from "@/lib/utils"
+import { useMovieGenres, useTvGenres } from "@/hooks/Genres"
 
 interface WatchListItemProps {
   item: WatchListStorageItem
-  genresData: { id: number; name: string }[]
   layout: string
   onDelete: (id: number) => void
 }
 
-export function WatchListItem({
-  item,
-  genresData,
-  layout,
-  onDelete,
-}: WatchListItemProps) {
+export function WatchListItem({ item, layout, onDelete }: WatchListItemProps) {
+  const { data: movieGenres } = useMovieGenres()
+  const { data: tvGenres } = useTvGenres()
+
+  const genres = item.mediaType === "tv" ? tvGenres : movieGenres
+
   const timePassed = timeAgo(new Date(item.addedAt))
-  const genres = findGenres(item, genresData)
 
   const handleDeleteClick = () => {
     onDelete(item.id)
@@ -55,9 +53,9 @@ export function WatchListItem({
             </span>
           </div>
           <ul className="flex gap-1">
-            {genres.map((genre) => (
-              <li key={genre.id}>
-                <Badge variant="outline">{genre.name}</Badge>
+            {item.genreIds.map((id) => (
+              <li key={id}>
+                <Badge variant="outline">{genres?.[id] || "N/A"}</Badge>
               </li>
             ))}
           </ul>

@@ -1,5 +1,3 @@
-import { useMovieGenres } from "@/hooks/Genres"
-import { useShowGenres } from "@/hooks/Genres"
 import { WatchListHeader } from "@/features/watchlist/components/WatchListHeader"
 import { WatchListItem } from "@/features/watchlist/components/WatchListItem"
 import { useWatchListContext } from "@/features/watchlist/context/WatchListContext"
@@ -7,8 +5,6 @@ import { useWatchListParams } from "@/features/watchlist/hooks/useWatchListParam
 import { useMemo } from "react"
 
 function WatchListPage() {
-  const { movieGenresData } = useMovieGenres()
-  const { showGenresData } = useShowGenres()
   const { watchList, setWatchList } = useWatchListContext()
   const { tab, layout, sort, handleParamChange } = useWatchListParams()
 
@@ -88,11 +84,6 @@ function WatchListPage() {
             key={item.id}
             layout={layout}
             item={item}
-            genresData={
-              item.mediaType === "movie"
-                ? movieGenresData?.genres || []
-                : showGenresData?.genres || []
-            }
             onDelete={onDelete}
           />
         ))}
