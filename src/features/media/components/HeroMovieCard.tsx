@@ -44,15 +44,8 @@ export function MainCardSkeleton() {
 }
 
 export function HeroMovieCard() {
-  const {
-    movie,
-    movieGenres,
-    movieTrailer,
-    isPending,
-    isError,
-    error,
-    refetch,
-  } = useFeaturedMovie()
+  const { movie, genres, movieTrailer, isPending, isError, error, refetch } =
+    useFeaturedMovie()
 
   if (isPending) return <MainCardSkeleton />
   if (isError) {
@@ -97,15 +90,16 @@ export function HeroMovieCard() {
             </span>
           </div>
           <div className="flex items-center gap-2">
-            {movieGenres?.map((genre) => (
-              <Badge
-                key={genre.id}
-                variant="secondary"
-                className="text-xs font-semibold"
-              >
-                {genre.name}
-              </Badge>
-            ))}
+            {genres &&
+              genres.map((genre) => (
+                <Badge
+                  key={genre}
+                  variant="secondary"
+                  className="text-xs font-semibold"
+                >
+                  {genre}
+                </Badge>
+              ))}
           </div>
           <p className="max-w-prose">
             {movie.overview ? movie.overview.slice(0, 200) : "N/A"}...
@@ -139,7 +133,7 @@ export function HeroMovieCard() {
               </div>
             </DialogContent>
           </Dialog>
-          <Bookmark item={movie} genres={movieGenres ?? []} />
+          <Bookmark item={movie} />
         </CardFooter>
       </div>
     </Card>
