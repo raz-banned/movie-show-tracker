@@ -49,8 +49,8 @@ export function WatchListHeader({
             Movies
           </Button>
           <Button
-            variant={tab === "shows" ? "default" : "outline"}
-            onClick={() => onParamChange("tab", "shows")}
+            variant={tab === "tv" ? "default" : "outline"}
+            onClick={() => onParamChange("tab", "tv")}
           >
             Shows
           </Button>
