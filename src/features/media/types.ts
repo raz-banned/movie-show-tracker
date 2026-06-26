@@ -51,16 +51,16 @@ export interface MovieVideosResponse {
   results: Video[]
 }
 
-export interface Show extends Trending {
+export interface TvShow extends Trending {
   name: string
   original_name: string
   first_air_date: string | null
   origin_country: string[]
 }
 
-export interface TrendingShowsResponse {
+export interface TrendingTvResponse {
   page: number
-  results: Show[]
+  results: TvShow[]
   total_pages: number
   total_results: number
 }

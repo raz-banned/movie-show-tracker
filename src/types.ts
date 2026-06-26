@@ -10,12 +10,14 @@ export interface NormalizedMedia {
   voteAverage: number
 }
 
+export type GenresMap = Record<number, string>
+
 export interface Genres {
   id: number
   name: string
 }
 
-export interface ShowGenreResponse {
+export interface TvGenreResponse {
   genres: Genres[]
 }
 
