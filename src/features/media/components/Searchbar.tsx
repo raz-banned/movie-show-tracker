@@ -8,7 +8,6 @@ import {
   ComboboxItem,
   ComboboxList,
 } from "@/components/ui/combobox"
-import { useMovieGenres } from "@/hooks/Genres"
 import { useDebounce } from "@/hooks/useDebounce"
 import { useSearchedMovies } from "@/features/media/api/Movies"
 import { SearchItem } from "./SearchItem"
@@ -23,7 +22,7 @@ export function Searchbar() {
     isError,
     error,
   } = useSearchedMovies(debouncedQuery)
-  const { movieGenresData = { genres: [] } } = useMovieGenres()
+
 
   const movies = data.results.slice(0, 10)
 
@@ -43,7 +42,7 @@ export function Searchbar() {
       <ComboboxList>
         {movies.map((movie) => (
           <ComboboxItem key={movie.id} value={movie.id}>
-            <SearchItem movie={movie} genres={movieGenresData.genres} />
+            <SearchItem movie={movie} />
           </ComboboxItem>
         ))}
       </ComboboxList>

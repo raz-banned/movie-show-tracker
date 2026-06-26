@@ -1,15 +1,14 @@
 import { DotIcon, StarIcon } from "@phosphor-icons/react"
 import { Badge } from "@/components/ui/badge"
-import type { Genres, NormalizedMedia } from "@/types"
-import { findGenres } from "@/lib/utils"
+import type { NormalizedMedia } from "@/types"
+import { useMovieGenres } from "@/hooks/Genres"
 
 interface SearchItemProps {
   movie: NormalizedMedia
-  genres: Genres[]
 }
 
-export function SearchItem({ movie, genres }: SearchItemProps) {
-  const filteredGenres = findGenres(movie, genres)
+export function SearchItem({ movie }: SearchItemProps) {
+  const { data: movieGenres } = useMovieGenres()
 
   return (
     <div className="flex w-full items-center justify-between gap-3">
@@ -32,20 +31,20 @@ export function SearchItem({ movie, genres }: SearchItemProps) {
             </span>
             <DotIcon size={18} />
             <Badge
-              key={filteredGenres[0]?.id}
+              key={movieGenres?.[movie.genreIds[0]] || movie.id}
               variant="outline"
               className="text-xs font-semibold"
             >
-              {filteredGenres[0]?.name}
+              {movieGenres?.[movie.genreIds[0]] || "N/A"}
             </Badge>
             <div className="hidden flex-wrap gap-1 lg:flex">
-              {filteredGenres.map((genre) => (
+              {movie.genreIds.map((id) => (
                 <Badge
-                  key={genre.id}
+                  key={id}
                   variant="outline"
                   className="text-xs font-semibold"
                 >
-                  {genre.name}
+                  {movieGenres?.[id] || "N/A"}
                 </Badge>
               ))}
             </div>
