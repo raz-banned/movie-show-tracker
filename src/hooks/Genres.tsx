@@ -1,4 +1,4 @@
-import type { MovieGenreResponse, ShowGenreResponse } from "@/types"
+import type { GenresMap, MovieGenreResponse, TvGenreResponse } from "@/types"
 import { api, options } from "@/lib/api"
 import { useQuery } from "@tanstack/react-query"
 
@@ -11,61 +11,37 @@ const fetchMovieGenres = async (): Promise<MovieGenreResponse> => {
   return data
 }
 
-export const fetchShowGenres = async (): Promise<ShowGenreResponse> => {
+export const fetchTvGenres = async (): Promise<TvGenreResponse> => {
   const res = await api(`/genre/tv/list`, options)
   if (!res.ok) {
-    throw new Error("Failed to fetch show genres")
+    throw new Error("Failed to fetch tv genres")
   }
   const data = await res.json()
   return data
 }
 
 export const useMovieGenres = () => {
-  const {
-    data,
-    isPending,
-    isError,
-    error,
-    refetch: refetchGenres,
-  } = useQuery({
+  return useQuery({
     queryKey: ["movies", "genres"],
     queryFn: fetchMovieGenres,
-    select: (data) => ({
-      ...data,
-      genres: data.genres.map((genre) => ({ ...genre, id: Number(genre.id) })),
-    }),
+    select: (data): GenresMap => {
+      return data.genres.reduce<Record<number, string>>((acc, genre) => {
+        acc[Number(genre.id)] = genre.name
+        return acc
+      }, {})
+    },
   })
-
-  return {
-    movieGenresData: data,
-    isGenresPending: isPending,
-    isGenresError: isError,
-    genresError: error,
-    refetchGenres: refetchGenres,
-  }
 }
 
-export const useShowGenres = () => {
-  const {
-    data,
-    isPending,
-    isError,
-    error,
-    refetch: refetchGenres,
-  } = useQuery({
-    queryKey: ["shows", "genres"],
-    queryFn: fetchShowGenres,
-    select: (data) => ({
-      ...data,
-      genres: data.genres.map((genre) => ({ ...genre, id: Number(genre.id) })),
-    }),
+export const useTvGenres = () => {
+  return useQuery({
+    queryKey: ["tv", "genres"],
+    queryFn: fetchTvGenres,
+    select: (data): GenresMap => {
+      return data.genres.reduce<Record<number, string>>((acc, genre) => {
+        acc[Number(genre.id)] = genre.name
+        return acc
+      }, {})
+    },
   })
-
-  return {
-    showGenresData: data,
-    isGenresPending: isPending,
-    isGenresError: isError,
-    genresError: error,
-    refetchGenres: refetchGenres,
-  }
 }
