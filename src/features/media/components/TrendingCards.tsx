@@ -1,11 +1,12 @@
 import { ArrowRightIcon } from "@phosphor-icons/react"
-import { Button } from "../../../components/ui/button"
+import { Button } from "@/components/ui/button" // поправил импорты на абсолютные алиасы
 import { Link, useSearchParams } from "react-router"
 import { TrendingCard } from "./TrendingCard"
-import { Card } from "../../../components/ui/card"
-import { Skeleton } from "../../../components/ui/skeleton"
+import { Card } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useMovieCards } from "@/features/media/api/Movies"
-import { useShowCards } from "@/features/media/api/Shows"
+import { useTvCards } from "@/features/media/api/Shows"
+import type { NormalizedMedia } from "@/types"
 
 export function TrendingCardsSkeleton() {
   return Array.from({ length: 5 }).map((_, index) => (
@@ -21,44 +22,7 @@ export function TrendingCardsSkeleton() {
 
 export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const activeTab = searchParams.get("tab") || "movies"
-
-  const { movies, isMoviesLoading, isMoviesError, moviesError, refetchMovies } =
-    useMovieCards()
-  const { shows, isShowsLoading, isShowsError, showsError, refetchShows } =
-    useShowCards()
-
-  const isLoading = isMoviesLoading || isShowsLoading
-  const isError = isMoviesError || isShowsError
-  const items = activeTab === "shows" ? shows : movies
-
-  const content = () => {
-    if (isLoading) return <TrendingCardsSkeleton />
-    if (isError)
-      return (
-        <div className="flex flex-col items-center gap-2">
-          <p>
-            Couldn't load {activeTab === "shows" ? "shows" : "movies"}
-            {isMoviesError ? moviesError?.message : showsError?.message}
-          </p>
-          <Button
-            onClick={() => {
-              refetchMovies()
-              refetchShows()
-            }}
-          >
-            Try again
-          </Button>
-        </div>
-      )
-    if (!items?.length)
-      return (
-        <div className="flex flex-col items-center gap-2">
-          <p>Нет результатов</p>
-        </div>
-      )
-    return items?.map((item) => <TrendingCard key={item.id} item={item} />)
-  }
+  const activeTab = searchParams.get("tab") === "tv" ? "tv" : "movie"
 
   return (
     <section className="mx-auto flex max-w-7xl flex-col gap-4 py-6">
@@ -72,27 +36,108 @@ export function TrendingCards() {
             </Link>
           </Button>
         </div>
+
         <div className="flex gap-2">
           <Button
-            variant={activeTab === "movies" ? "default" : "outline"}
+            variant={activeTab === "movie" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSearchParams({ tab: "movies" })}
+            onClick={() => setSearchParams({ tab: "movie" })}
           >
             Movies
           </Button>
           <Button
-            variant={activeTab === "shows" ? "default" : "outline"}
+            variant={activeTab === "tv" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSearchParams({ tab: "shows" })}
+            onClick={() => setSearchParams({ tab: "tv" })}
           >
-            Shows
+            TV Shows
           </Button>
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-        {content()}
-      </div>
+      {activeTab === "tv" ? <TvCards /> : <MovieCards />}
     </section>
+  )
+}
+
+function MovieCards() {
+  const { movies, isPending, isError, error, refetch } = useMovieCards()
+
+  return (
+    <MediaGrid
+      media={movies}
+      isPending={isPending}
+      isError={isError}
+      error={error}
+      refetch={refetch}
+    />
+  )
+}
+
+function TvCards() {
+  const { shows, isPending, isError, error, refetch } = useTvCards()
+
+  return (
+    <MediaGrid
+      media={shows}
+      isPending={isPending}
+      isError={isError}
+      error={error}
+      refetch={refetch}
+    />
+  )
+}
+
+interface MediaGridProps {
+  media: NormalizedMedia[] | undefined
+  isPending: boolean
+  isError: boolean
+  error: Error | null
+  refetch: () => void
+}
+
+function MediaGrid({
+  media,
+  isPending,
+  isError,
+  error,
+  refetch,
+}: MediaGridProps) {
+  if (isPending) {
+    return (
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+        <TrendingCardsSkeleton />
+      </div>
+    )
+  }
+
+  if (isError) {
+    return (
+      <div className="flex w-full flex-col items-center justify-center gap-2 py-10 text-center">
+        <p className="font-medium text-destructive">Couldn't load data</p>
+        {error?.message && (
+          <p className="text-sm text-muted-foreground">{error.message}</p>
+        )}
+        <Button variant="outline" size="sm" onClick={() => refetch()}>
+          Try again
+        </Button>
+      </div>
+    )
+  }
+
+  if (!media?.length) {
+    return (
+      <div className="flex w-full flex-col items-center justify-center py-10 text-center text-muted-foreground">
+        <p>Нет результатов</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      {media.map((item) => (
+        <TrendingCard key={item.id} item={item} />
+      ))}
+    </div>
   )
 }
