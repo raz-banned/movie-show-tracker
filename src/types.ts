@@ -1,9 +1,9 @@
 export interface NormalizedMedia {
   id: number
-  backdropPath: string | null
+  backdropPath: ((width: number) => string) | null
   title: string
   overview: string | null
-  posterPath: string | null
+  posterPath: ((width: number) => string) | null
   mediaType: "movie" | "tv"
   genreIds: number[]
   releaseDate: string | null
