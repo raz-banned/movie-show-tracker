@@ -9,8 +9,27 @@ export const WatchListProvider = ({ children }: { children: ReactNode }) => {
     []
   )
 
+  const addMedia = (media: WatchListStorageItem) => {
+    setWatchList((prev) => [...prev, media])
+  }
+
+  const removeMedia = (id: number) => {
+    setWatchList((prev) => prev.filter((item) => item.id !== id))
+  }
+
+  const updateMediaStatus = (
+    id: number,
+    status: WatchListStorageItem["status"]
+  ) => {
+    setWatchList((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, status } : item))
+    )
+  }
+
   return (
-    <WatchListContext value={{ watchList, setWatchList }}>
+    <WatchListContext
+      value={{ watchList, addMedia, removeMedia, updateMediaStatus }}
+    >
       {children}
     </WatchListContext>
   )

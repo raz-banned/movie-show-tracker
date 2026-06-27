@@ -1,14 +1,14 @@
-import {
-  createContext,
-  useContext,
-  type Dispatch,
-  type SetStateAction,
-} from "react"
+import { createContext, useContext } from "react"
 import type { WatchListStorageItem } from "../watchlist"
 
 export const WatchListContext = createContext<{
   watchList: WatchListStorageItem[]
-  setWatchList: Dispatch<SetStateAction<WatchListStorageItem[]>>
+  addMedia: (media: WatchListStorageItem) => void
+  removeMedia: (id: number) => void
+  updateMediaStatus: (
+    id: number,
+    status: WatchListStorageItem["status"]
+  ) => void
 } | null>(null)
 
 export const useWatchListContext = () => {
