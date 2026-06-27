@@ -1,65 +1,11 @@
 import { WatchListHeader } from "@/features/watchlist/components/WatchListHeader"
 import { WatchListItem } from "@/features/watchlist/components/WatchListItem"
-import { useWatchListContext } from "@/features/watchlist/context/WatchListContext"
 import { useWatchListParams } from "@/features/watchlist/hooks/useWatchListParams"
-import { useMemo } from "react"
+import { useFilteredWatchList } from "@/features/watchlist/hooks/useFilteredWatchList"
 
 function WatchListPage() {
-  const { watchList, setWatchList } = useWatchListContext()
   const { tab, layout, sort, handleParamChange } = useWatchListParams()
-
-  const filteredStorage = useMemo(
-    () =>
-      tab === "all"
-        ? watchList
-        : watchList.filter((item) =>
-            tab === "movies"
-              ? item.mediaType === "movie"
-              : item.mediaType === "tv"
-          ),
-    [watchList, tab]
-  )
-  const sortedStorage = useMemo(
-    () => ({
-      recentlyAdded: [...filteredStorage].sort((a, b) => {
-        const dateA = new Date(a.addedAt).getTime()
-        const dateB = new Date(b.addedAt).getTime()
-        return dateB - dateA
-      }),
-      asc: [...filteredStorage].sort((a, b) => a.title.localeCompare(b.title)),
-      desc: [...filteredStorage].sort((a, b) => b.title.localeCompare(a.title)),
-      newest: [...filteredStorage].sort((a, b) => {
-        if (!a.releaseDate) return 1
-        if (!b.releaseDate) return -1
-        const dateA = new Date(a.releaseDate).getTime()
-        const dateB = new Date(b.releaseDate).getTime()
-        return dateB - dateA
-      }),
-      oldest: [...filteredStorage].sort((a, b) => {
-        if (!a.releaseDate) return 1
-        if (!b.releaseDate) return -1
-        const dateA = new Date(a.releaseDate).getTime()
-        const dateB = new Date(b.releaseDate).getTime()
-        return dateA - dateB
-      }),
-      highest: [...filteredStorage].sort(
-        (a, b) => b.voteAverage - a.voteAverage
-      ),
-      lowest: [...filteredStorage].sort(
-        (a, b) => a.voteAverage - b.voteAverage
-      ),
-    }),
-    [filteredStorage]
-  )
-
-  const movieCount = watchList.filter(
-    (item) => item.mediaType === "movie"
-  ).length
-  const showCount = watchList.filter((item) => item.mediaType === "tv").length
-
-  const onDelete = (id: number) => {
-    setWatchList((prev) => prev.filter((item) => item.id !== id))
-  }
+  const { items, movieCount, showCount, onRemove } = useFilteredWatchList()
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-col gap-8">
@@ -79,12 +25,12 @@ function WatchListPage() {
             : "grid grid-cols-2 gap-4 md:grid-cols-4 lg:grid-cols-5"
         }
       >
-        {sortedStorage[sort as keyof typeof sortedStorage]?.map((item) => (
+        {items[sort as keyof typeof items]?.map((item) => (
           <WatchListItem
             key={item.id}
             layout={layout}
             item={item}
-            onDelete={onDelete}
+            onRemove={onRemove}
           />
         ))}
       </ul>

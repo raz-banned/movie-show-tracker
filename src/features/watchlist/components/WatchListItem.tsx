@@ -8,19 +8,18 @@ import { useMovieGenres, useTvGenres } from "@/hooks/Genres"
 interface WatchListItemProps {
   item: WatchListStorageItem
   layout: string
-  onDelete: (id: number) => void
+  onRemove: (id: number) => void
 }
 
-export function WatchListItem({ item, layout, onDelete }: WatchListItemProps) {
+export function WatchListItem({ item, layout, onRemove }: WatchListItemProps) {
   const { data: movieGenres } = useMovieGenres()
   const { data: tvGenres } = useTvGenres()
 
   const genres = item.mediaType === "tv" ? tvGenres : movieGenres
-
   const timePassed = timeAgo(new Date(item.addedAt))
 
   const handleDeleteClick = () => {
-    onDelete(item.id)
+    onRemove(item.id)
   }
 
   return layout === "list" ? (
