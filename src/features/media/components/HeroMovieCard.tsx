@@ -63,7 +63,7 @@ export function HeroMovieCard() {
       <div className="w-full md:w-2/5">
         {movie.backdropPath ? (
           <img
-            src={`https://image.tmdb.org/t/p/w780${movie.backdropPath}`}
+            src={movie.backdropPath(780)}
             alt={movie.title}
             className="aspect-video w-full rounded-lg object-cover"
           />

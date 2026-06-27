@@ -18,10 +18,10 @@ createRoot(document.getElementById("root")!).render(
         <ThemeProvider>
           <WatchListProvider>
             <App />
+            <Toaster />
           </WatchListProvider>
         </ThemeProvider>
       </BrowserRouter>
-      <Toaster />
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </StrictMode>

@@ -31,7 +31,7 @@ export function WatchListItem({ item, layout, onRemove }: WatchListItemProps) {
         <div className="aspect-2/3 w-18 shrink-0 md:w-16">
           {item.posterPath ? (
             <img
-              src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
+              src={item.posterPath(500)}
               alt={item.title}
               className="h-full w-full rounded-sm bg-gray-400"
             />
@@ -86,7 +86,7 @@ export function WatchListItem({ item, layout, onRemove }: WatchListItemProps) {
       <div className="aspect-2/3 w-full">
         {item.posterPath ? (
           <img
-            src={`https://image.tmdb.org/t/p/w500/${item.posterPath}`}
+            src={item.posterPath(500)}
             alt={item.title}
             className="h-full w-full rounded-sm bg-gray-400"
           />

@@ -15,7 +15,7 @@ export function SearchItem({ movie }: SearchItemProps) {
       <div className="flex items-center gap-3">
         {movie.posterPath ? (
           <img
-            src={`https://image.tmdb.org/t/p/w92/${movie.posterPath}`}
+            src={movie.posterPath(92)}
             className="h-14 w-10 rounded-sm object-cover"
           />
         ) : (
