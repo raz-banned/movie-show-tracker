@@ -1,13 +1,8 @@
-import type { Genres, NormalizedMedia } from "@/types"
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
-}
-
-export const findGenres = (movie: NormalizedMedia, genres: Genres[]) => {
-  return genres.filter((genre) => movie.genreIds.includes(genre.id))
 }
 
 const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" })
