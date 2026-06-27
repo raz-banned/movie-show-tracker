@@ -9,20 +9,16 @@ import type { NormalizedMedia } from "@/types"
 import { statusBgColors, statusColors } from "@/lib/utils"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
-import { useMovieGenres, useTvGenres } from "@/hooks/Genres"
-
 interface BookmarkProps {
   item: NormalizedMedia
   variant?: "mainCard" | "trendingCard"
 }
 
 export function Bookmark({ item, variant = "mainCard" }: BookmarkProps) {
+  const { watchList, addMedia, removeMedia, updateMediaStatus } =
+    useWatchListContext()
   const [isOpen, setIsOpen] = useState(false)
-  const { watchList, setWatchList } = useWatchListContext()
-  const { data: movieGenres } = useMovieGenres()
-  const { data: tvGenres } = useTvGenres()
 
-  const genres = item.mediaType === "tv" ? tvGenres : movieGenres
   const bookmarkStatus =
     (item && watchList.find((watchItem) => watchItem.id === item.id)?.status) ||
     ""
@@ -30,7 +26,7 @@ export function Bookmark({ item, variant = "mainCard" }: BookmarkProps) {
 
   const handleTriggerClick = () => {
     if (bookmarkStatus) {
-      setWatchList((prev) => prev.filter((bookmark) => bookmark.id !== item.id))
+      removeMedia(item.id)
     } else {
       setIsOpen(true)
     }
@@ -38,17 +34,15 @@ export function Bookmark({ item, variant = "mainCard" }: BookmarkProps) {
 
   const handleOptionClick = (type: "Watching" | "Completed" | "Planning") => {
     setIsOpen(false)
-    setWatchList((prev) => [
-      ...prev,
-      {
+
+    if (item && bookmarkStatus) updateMediaStatus(item.id, type)
+    else if (item && !bookmarkStatus) {
+      addMedia({
         ...item,
         status: type,
         addedAt: new Date().toISOString(),
-        genres: item.genreIds
-          .map((id) => genres?.[id])
-          .filter((g): g is string => !!g),
-      },
-    ])
+      })
+    }
   }
 
   return (
