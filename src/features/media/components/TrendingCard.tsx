@@ -3,9 +3,9 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card"
-import { Badge } from "../../../components/ui/badge"
-import { Bookmark } from "../../watch-list/components/Bookmark"
+} from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Bookmark } from "@/components/Bookmark"
 import type { NormalizedMedia } from "@/types"
 
 interface TrendingCardProps {
@@ -30,7 +30,7 @@ export function TrendingCard({ item }: TrendingCardProps) {
         <Badge className="absolute top-2 right-2 h-5 w-8 bg-accent p-1 text-xs">
           {item.voteAverage.toFixed(1)}
         </Badge>
-        <Bookmark item={item} />
+        <Bookmark item={item} variant="trendingCard" />
         <CardTitle className="truncate text-sm">
           {item.title.length > 30
             ? `${item.title.slice(0, 30)}...`

@@ -1,5 +1,5 @@
 import type { MovieVideosResponse, TrendingMoviesResponse } from "../types"
-import { api, options } from "../../../lib/api"
+import { api, options } from "@/lib/api"
 import { useQuery } from "@tanstack/react-query"
 import { selectNormalizedMedia } from "../utils"
 import { useMovieGenres } from "@/hooks/genres"

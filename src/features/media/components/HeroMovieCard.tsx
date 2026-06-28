@@ -1,21 +1,21 @@
 import { DotIcon, PlayIcon, TrendUpIcon } from "@phosphor-icons/react"
-import { Badge } from "../../../components/ui/badge"
-import { Button } from "../../../components/ui/button"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../../../components/ui/card"
+} from "@/components/ui/card"
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   DialogTrigger,
-} from "../../../components/ui/dialog"
-import { Skeleton } from "../../../components/ui/skeleton"
-import { Bookmark } from "../../watch-list/components/Bookmark"
+} from "@/components/ui/dialog"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Bookmark } from "@/components/Bookmark"
 import { useFeaturedMovie } from "@/features/media/api/movies"
 
 export function MainCardSkeleton() {
