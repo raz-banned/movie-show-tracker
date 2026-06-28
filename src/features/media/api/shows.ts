@@ -1,4 +1,3 @@
-import { useSearchParams } from "react-router"
 import type { TrendingTvResponse } from "../types"
 import { api, options } from "@/lib/api"
 import { useQuery } from "@tanstack/react-query"
@@ -15,30 +14,10 @@ export const fetchTrendingTv = async (
   return data
 }
 
-export const useTrendingTv = (timeWindow: "week" | "day", enabled: boolean) => {
+export const useTrendingTv = (timeWindow: "week" | "day") => {
   return useQuery({
     queryKey: ["tv", "trending", timeWindow],
     queryFn: () => fetchTrendingTv(timeWindow),
-    enabled,
     select: selectNormalizedMedia,
   })
-}
-
-export const useTvCards = () => {
-  const [searchParams] = useSearchParams()
-
-  const { data, isPending, isError, error, refetch } = useTrendingTv(
-    "week",
-    searchParams.get("tab") === "shows"
-  )
-
-  const shows = data?.results.slice(1, 6)
-
-  return {
-    shows,
-    isPending,
-    isError,
-    error,
-    refetch,
-  }
 }

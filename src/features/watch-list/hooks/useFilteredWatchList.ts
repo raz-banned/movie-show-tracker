@@ -1,5 +1,5 @@
-import { useWatchListContext } from "@/features/watchlist/context/WatchListContext"
-import { useWatchListParams } from "@/features/watchlist/hooks/useWatchListParams"
+import { useWatchListContext } from "@/features/watch-list/context/WatchListContext"
+import { useWatchListParams } from "@/features/watch-list/hooks/useWatchListParams"
 import { useMemo } from "react"
 
 export const useFilteredWatchList = () => {

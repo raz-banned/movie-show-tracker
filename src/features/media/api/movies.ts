@@ -1,9 +1,8 @@
 import type { MovieVideosResponse, TrendingMoviesResponse } from "../types"
 import { api, options } from "../../../lib/api"
-import { useSearchParams } from "react-router"
 import { useQuery } from "@tanstack/react-query"
 import { selectNormalizedMedia } from "../utils"
-import { useMovieGenres } from "@/hooks/Genres"
+import { useMovieGenres } from "@/hooks/genres"
 
 const fetchTrendingMovies = async (
   timeWindow: "week" | "day"
@@ -19,14 +18,15 @@ const fetchTrendingMovies = async (
 const fetchMovieByTitle = async (
   title: string
 ): Promise<TrendingMoviesResponse> => {
-  const response = await api(
+  const res = await api(
     `/search/movie?query=${encodeURIComponent(title)}&language=en-US&page=1&include_adult=false`,
     options
   )
-  if (!response.ok) {
+  if (!res.ok) {
     throw new Error("Failed to fetch movie data")
   }
-  return response.json()
+  const data = await res.json()
+  return data
 }
 
 const fetchMovieVideos = async (
@@ -40,14 +40,10 @@ const fetchMovieVideos = async (
   return data
 }
 
-export const useTrendingMovies = (
-  timeWindow: "week" | "day",
-  enabled: boolean
-) => {
+export const useTrendingMovies = (timeWindow: "week" | "day") => {
   return useQuery({
     queryKey: ["movies", "trending", timeWindow],
     queryFn: () => fetchTrendingMovies(timeWindow),
-    enabled,
     select: selectNormalizedMedia,
   })
 }
@@ -59,7 +55,7 @@ export const useFeaturedMovie = () => {
     isError,
     error,
     refetch: refetchMovies,
-  } = useTrendingMovies("week", true)
+  } = useTrendingMovies("week")
   const { data: movieGenres, refetch: refetchGenres } = useMovieGenres()
   const { data: videosData, refetch: refetchVideos } = useQuery({
     queryKey: ["movies", "videos", moviesData?.results[0].id],
@@ -93,26 +89,6 @@ export const useFeaturedMovie = () => {
     error,
     refetch: () =>
       Promise.all([refetchMovies(), refetchGenres(), refetchVideos()]),
-  }
-}
-
-export const useMovieCards = () => {
-  const [searchParams] = useSearchParams()
-
-  const { data, isPending, isError, error, refetch } = useTrendingMovies(
-    "week",
-    // tab is null on fresh homepage load (no URL param yet)
-    searchParams.get("tab") === "movies" || !searchParams.get("tab")
-  )
-
-  const movies = data?.results.slice(1, 6)
-
-  return {
-    movies,
-    isPending,
-    isError,
-    error,
-    refetch,
   }
 }
 

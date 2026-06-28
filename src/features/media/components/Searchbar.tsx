@@ -9,7 +9,7 @@ import {
   ComboboxList,
 } from "@/components/ui/combobox"
 import { useDebounce } from "@/hooks/useDebounce"
-import { useSearchedMovies } from "@/features/media/api/Movies"
+import { useSearchedMovies } from "@/features/media/api/movies"
 import { SearchItem } from "./SearchItem"
 
 export function Searchbar() {

@@ -4,8 +4,8 @@ import { Link, useSearchParams } from "react-router"
 import { TrendingCard } from "./TrendingCard"
 import { Card } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { useMovieCards } from "@/features/media/api/Movies"
-import { useTvCards } from "@/features/media/api/Shows"
+import { useTrendingMovies } from "@/features/media/api/movies"
+import { useTrendingTv } from "@/features/media/api/shows"
 import type { NormalizedMedia } from "@/types"
 
 export function TrendingCardsSkeleton() {
@@ -61,7 +61,9 @@ export function TrendingCards() {
 }
 
 function MovieCards() {
-  const { movies, isPending, isError, error, refetch } = useMovieCards()
+  const { data, isPending, isError, error, refetch } = useTrendingMovies("week")
+
+  const movies = data?.results.slice(1, 6)
 
   return (
     <MediaGrid
@@ -75,7 +77,9 @@ function MovieCards() {
 }
 
 function TvCards() {
-  const { shows, isPending, isError, error, refetch } = useTvCards()
+  const { data, isPending, isError, error, refetch } = useTrendingTv("week")
+
+  const shows = data?.results.slice(1, 6)
 
   return (
     <MediaGrid

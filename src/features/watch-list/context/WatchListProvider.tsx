@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@/hooks/useLocalStorage"
 import { WatchListContext } from "./WatchListContext"
-import type { WatchListStorageItem } from "../watchlist"
+import type { WatchListStorageItem } from "../watchList"
 import type { ReactNode } from "react"
 
 export const WatchListProvider = ({ children }: { children: ReactNode }) => {

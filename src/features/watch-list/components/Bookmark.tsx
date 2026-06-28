@@ -4,7 +4,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useWatchListContext } from "@/features/watchlist/context/WatchListContext"
+import { useWatchListContext } from "@/features/watch-list/context/WatchListContext"
 import type { NormalizedMedia } from "@/types"
 import { statusBgColors, statusColors } from "@/lib/utils"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"

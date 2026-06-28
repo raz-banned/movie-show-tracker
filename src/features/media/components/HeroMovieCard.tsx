@@ -15,8 +15,8 @@ import {
   DialogTrigger,
 } from "../../../components/ui/dialog"
 import { Skeleton } from "../../../components/ui/skeleton"
-import { Bookmark } from "../../watchlist/components/Bookmark"
-import { useFeaturedMovie } from "@/features/media/api/Movies"
+import { Bookmark } from "../../watch-list/components/Bookmark"
+import { useFeaturedMovie } from "@/features/media/api/movies"
 
 export function MainCardSkeleton() {
   return (

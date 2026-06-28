@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
-export const useLocalStorage = <T,>(key: string, initialValue: T) => {
+export const useLocalStorage = <T>(key: string, initialValue: T) => {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = localStorage.getItem(key)

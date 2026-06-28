@@ -5,7 +5,7 @@ import {
   CardTitle,
 } from "../../../components/ui/card"
 import { Badge } from "../../../components/ui/badge"
-import { Bookmark } from "../../watchlist/components/Bookmark"
+import { Bookmark } from "../../watch-list/components/Bookmark"
 import type { NormalizedMedia } from "@/types"
 
 interface TrendingCardProps {
