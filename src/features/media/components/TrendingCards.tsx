@@ -25,7 +25,7 @@ export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const params: SearchParams = {
-    tab: (searchParams.get("tab") as SearchParams["tab"]) || "movies",
+    tab: (searchParams.get("tab") || "movies") as SearchParams["tab"],
   }
   const activeTab = params.tab
 

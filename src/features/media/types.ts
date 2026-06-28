@@ -66,5 +66,5 @@ export interface TrendingTvResponse {
 }
 
 export interface SearchParams {
-  tab: "movies" | "tv" | null
+  tab: "movies" | "tv"
 }

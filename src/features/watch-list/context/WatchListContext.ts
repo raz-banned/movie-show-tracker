@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react"
-import type { WatchListStorageItem } from "../watchList"
+import type { WatchListStorageItem } from "../types"
 
 export const WatchListContext = createContext<{
   watchList: WatchListStorageItem[]

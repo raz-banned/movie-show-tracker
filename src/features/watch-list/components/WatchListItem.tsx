@@ -1,7 +1,7 @@
 import { DotIcon, TrashIcon } from "@phosphor-icons/react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { WatchListStorageItem } from "@/features/watch-list/watchList"
+import type { WatchListStorageItem } from "@/features/watch-list/types"
 import { timeAgo, statusBgColors, statusColors } from "@/lib/utils"
 import { useMovieGenres, useTvGenres } from "@/hooks/genres"
 
