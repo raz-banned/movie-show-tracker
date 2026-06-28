@@ -1,0 +1,5 @@
+export { WatchListHeader } from "./components/WatchListHeader"
+export { WatchListItem } from "./components/WatchListItem"
+export { useWatchListParams } from "./hooks/useWatchListParams"
+export { useFilteredWatchList } from "./hooks/useFilteredWatchList"
+export { WatchListProvider } from "./context/WatchListProvider"

@@ -1,10 +1,9 @@
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
-
-import { Searchbar } from "../../features/media/components/Searchbar"
 import { Button } from "../ui/button"
 import { Separator } from "../ui/separator"
 import { Link, useLocation } from "react-router"
 import { Navbar } from "../Navbar"
+import { Searchbar } from "@/features/media"
 
 export function Header() {
   const location = useLocation()

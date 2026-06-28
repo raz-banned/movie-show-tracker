@@ -1,7 +1,9 @@
-import { WatchListHeader } from "@/features/watchlist/components/WatchListHeader"
-import { WatchListItem } from "@/features/watchlist/components/WatchListItem"
-import { useWatchListParams } from "@/features/watchlist/hooks/useWatchListParams"
-import { useFilteredWatchList } from "@/features/watchlist/hooks/useFilteredWatchList"
+import {
+  useFilteredWatchList,
+  useWatchListParams,
+  WatchListHeader,
+  WatchListItem,
+} from "@/features/watch-list"
 
 function WatchListPage() {
   const { tab, layout, sort, handleParamChange } = useWatchListParams()

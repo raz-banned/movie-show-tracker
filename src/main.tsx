@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { BrowserRouter } from "react-router"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
-import { WatchListProvider } from "./features/watchlist/context/WatchListProvider.tsx"
+import { WatchListProvider } from "./features/watch-list"
 import { Toaster } from "./components/ui/sonner.tsx"
 
 const queryClient = new QueryClient()

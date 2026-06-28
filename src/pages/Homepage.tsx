@@ -1,5 +1,4 @@
-import { HeroMovieCard } from "@/features/media/components/HeroMovieCard"
-import { TrendingCards } from "@/features/media/components/TrendingCards"
+import { HeroMovieCard, TrendingCards } from "@/features/media"
 
 function Homepage() {
   return (
