@@ -4,11 +4,12 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { useWatchListContext } from "@/features/watch-list/context/WatchListContext"
+import { useWatchListContext } from "@/features/watch-list"
 import type { NormalizedMedia } from "@/types"
 import { statusBgColors, statusColors } from "@/lib/utils"
 import { BookmarkSimpleIcon } from "@phosphor-icons/react"
 import { useState } from "react"
+
 interface BookmarkProps {
   item: NormalizedMedia
   variant?: "mainCard" | "trendingCard"
@@ -49,8 +50,9 @@ export function Bookmark({ item, variant = "mainCard" }: BookmarkProps) {
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
-          className={`${statusColors[bookmarkStatus]} ${isMainCard ? statusBgColors[bookmarkStatus] : "absolute top-2 left-2 rounded-sm bg-accent p-1"}`}
+          variant="secondary"
+          size={isMainCard ? "default" : "icon"}
+          className={`${statusColors[bookmarkStatus]} ${isMainCard ? statusBgColors[bookmarkStatus] : "absolute top-2 left-2 rounded-sm"}`}
           onClick={handleTriggerClick}
         >
           <BookmarkSimpleIcon
