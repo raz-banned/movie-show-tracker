@@ -64,3 +64,7 @@ export interface TrendingTvResponse {
   total_pages: number
   total_results: number
 }
+
+export interface SearchParams {
+  tab: "movies" | "tv" | null
+}

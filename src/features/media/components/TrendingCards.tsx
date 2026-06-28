@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useTrendingMovies } from "@/features/media/api/movies"
 import { useTrendingTv } from "@/features/media/api/shows"
 import type { NormalizedMedia } from "@/types"
+import type { SearchParams } from "../types"
 
 export function TrendingCardsSkeleton() {
   return Array.from({ length: 5 }).map((_, index) => (
@@ -22,7 +23,11 @@ export function TrendingCardsSkeleton() {
 
 export function TrendingCards() {
   const [searchParams, setSearchParams] = useSearchParams()
-  const activeTab = searchParams.get("tab") === "tv" ? "tv" : "movie"
+
+  const params: SearchParams = {
+    tab: (searchParams.get("tab") as SearchParams["tab"]) || "movies",
+  }
+  const activeTab = params.tab
 
   return (
     <section className="mx-auto flex max-w-7xl flex-col gap-4 py-6">
@@ -39,9 +44,9 @@ export function TrendingCards() {
 
         <div className="flex gap-2">
           <Button
-            variant={activeTab === "movie" ? "default" : "outline"}
+            variant={activeTab === "movies" ? "default" : "outline"}
             size="sm"
-            onClick={() => setSearchParams({ tab: "movie" })}
+            onClick={() => setSearchParams({ tab: "movies" })}
           >
             Movies
           </Button>
